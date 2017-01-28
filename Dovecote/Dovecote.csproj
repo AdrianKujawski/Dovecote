@@ -62,6 +62,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,6 +75,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -106,8 +108,12 @@
     <Compile Include="Race.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddPigeon.xaml.cs">
-      <DependentUpon>AddPigeon.xaml</DependentUpon>
+    <Compile Include="ValueType.cs" />
+    <Compile Include="Windows\AddPigeonWindow.xaml.cs">
+      <DependentUpon>AddPigeonWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddValueWindow.xaml.cs">
+      <DependentUpon>AddValueWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -131,7 +137,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\AddPigeon.xaml">
+    <Page Include="Windows\AddPigeonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddValueWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

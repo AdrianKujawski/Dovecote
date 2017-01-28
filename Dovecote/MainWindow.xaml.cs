@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Dovecote.Windows;
 
 namespace Dovecote {
 	/// <summary>
@@ -20,6 +21,11 @@ namespace Dovecote {
 	public partial class MainWindow : Window {
 		public MainWindow() {
 			InitializeComponent();
+		}
+
+		void AddPigeon(object sender, RoutedEventArgs e) {
+			var window = new AddPigeonWindow();
+			window.ShowDialog();
 		}
 	}
 }
