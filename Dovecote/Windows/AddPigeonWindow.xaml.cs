@@ -18,31 +18,28 @@ namespace Dovecote.Windows {
 	/// </summary>
 	public partial class AddPigeonWindow : Window {
 
-		AddValueWindow _addValueWindow;
-
-		AddValueWindow AddValueWindow => _addValueWindow ?? new AddValueWindow(ValueType.Color);
-
 		public AddPigeonWindow() {
 			InitializeComponent();
 			HodowlaEntities entities = new HodowlaEntities();
 			ColorComboBox.ItemsSource = entities.Color.ToList();
 			RaceComboBox.ItemsSource = entities.Race.ToList();
+			LineComboBox.ItemsSource = entities.Line.ToList();
 		}
 
 		void AddColor(object sender, RoutedEventArgs e) {
-			var window = new AddValueWindow(ValueType.Color);
+			var window = new AddValueWindow(typeof(Color));
 			window.Title = "Dodaj kolor";
 			window.Show();
 		}
 
 		void AddRace(object sender, RoutedEventArgs e) {
-			var window = new AddValueWindow(ValueType.Race);
+			var window = new AddValueWindow(typeof(Race));
 			window.Title = "Dodaj rase";
 			window.Show();
 		}
 
 		void AddLine(object sender, RoutedEventArgs e) {
-			var window = new AddValueWindow(ValueType.Line);
+			var window = new AddValueWindow(typeof(Line));
 			window.Title = "Dodaj linie";
 			window.Show();
 		}

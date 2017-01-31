@@ -4,6 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Windows;
 
 namespace Dovecote.Windows {
@@ -13,33 +14,33 @@ namespace Dovecote.Windows {
 	/// Interaction logic for AddValue.xaml
 	/// </summary>
 	public partial class AddValueWindow : Window {
-		readonly ValueType _valueType;
-		readonly HodowlaEntities _entity;
+		readonly Type _type;
 
-		public AddValueWindow(ValueType type) {
+		public AddValueWindow(Type type) {
 			InitializeComponent();
-			_valueType = type;
-			_entity = new HodowlaEntities();
+			_type = type;
 		}
 
 		void Add(object sender, RoutedEventArgs e) {
 			ChooseValueType();
-			_entity.SaveChanges();
 			Close();
 		}
 
 		void ChooseValueType() {
-			switch (_valueType) {
-				case ValueType.Color:
-					_entity.Color.Add(new Color { Name = TextBox.Text });
-					break;
-				case ValueType.Race:
-					_entity.Race.Add(new Race { Name = TextBox.Text });
-					break;
-				case ValueType.Line:
-					_entity.Line.Add(new Line() { Name = TextBox.Text });
-					break;
+			object value = null;
+			if (_type == typeof(Color)) {
+				value = new Color { Name = TextBox.Text };
 			}
+			if (_type == typeof(Race)) {
+				value = new Race { Name = TextBox.Text };
+			}
+
+			if (_type == typeof(Line)) {
+				value = new Line { Name = TextBox.Text };
+			}
+
+			if(value != null)
+				Provider.Add(value);
 		}
 	}
 

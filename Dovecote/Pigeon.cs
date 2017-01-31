@@ -29,5 +29,9 @@ namespace Dovecote
         public long Gender_Id { get; set; }
         public Nullable<long> Father { get; set; }
         public Nullable<long> Mother { get; set; }
-    }
+
+		public override string ToString() {
+			return $"{RingNO}, {Name}";
+;		}
+	}
 }

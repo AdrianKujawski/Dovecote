@@ -119,7 +119,7 @@
     <Compile Include="Race.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
-    <Compile Include="ValueType.cs" />
+    <Compile Include="Model\ValueType.cs" />
     <Compile Include="Windows\AddPigeonWindow.xaml.cs">
       <DependentUpon>AddPigeonWindow.xaml</DependentUpon>
     </Compile>
