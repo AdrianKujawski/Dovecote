@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="473ab861fd9547ac9fb9f94be7e07e36" Name="Diagram1">
+      <Diagram DiagramId="4cfb51397ef348c1b5c2796ec1a9d05b" Name="Diagram1">
         <EntityTypeShape EntityType="HodowlaModel.Color" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HodowlaModel.Dovecote" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HodowlaModel.EyeColor" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />

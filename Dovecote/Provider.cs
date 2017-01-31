@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 namespace Dovecote {
 	class Provider {
 
-		HodowlaEntities _entity;
-		HodowlaEntities Entity {
-			get {
-				if (_entity != null) return _entity;
+		//HodowlaEntities _entity;
+		//HodowlaEntities Entity {
+		//	get {
+		//		if (_entity != null) return _entity;
 
-				_entity = new HodowlaEntities();
-				return _entity;
-			}
-		}
+		//		_entity = new HodowlaEntities();
+		//		return _entity;
+		//	}
+		//}
 
-		static void Do<T>(DbSet<T>) {
+		//static void Do<T>(DbSet<T>) {
 			
-		}
+		//}
 	}
 }
