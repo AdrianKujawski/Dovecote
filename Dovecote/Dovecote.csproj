@@ -104,6 +104,7 @@
     <Compile Include="Pigeon.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
+    <Compile Include="Provider.cs" />
     <Compile Include="Race.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
