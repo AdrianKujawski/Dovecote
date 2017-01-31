@@ -31,16 +31,19 @@ namespace Dovecote.Windows {
 
 		void AddColor(object sender, RoutedEventArgs e) {
 			var window = new AddValueWindow(ValueType.Color);
+			window.Title = "Dodaj kolor";
 			window.Show();
 		}
 
 		void AddRace(object sender, RoutedEventArgs e) {
 			var window = new AddValueWindow(ValueType.Race);
+			window.Title = "Dodaj rase";
 			window.Show();
 		}
 
 		void AddLine(object sender, RoutedEventArgs e) {
 			var window = new AddValueWindow(ValueType.Line);
+			window.Title = "Dodaj linie";
 			window.Show();
 		}
 	}

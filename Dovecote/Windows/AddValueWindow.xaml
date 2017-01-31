@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="AddValue" Height="300" Width="300">
     <Grid>
-	    <StackPanel>
-			<TextBox Name="TextBox" Height="25"></TextBox>
-			<Button Height="25" Content="Dodaj" Click="Add"></Button>
+	    <StackPanel Margin="10">
+			<TextBox Margin="10" Name="TextBox" Height="25"></TextBox>
+			<Button Margin="10" Height="25" Content="Dodaj" Click="Add"></Button>
 		</StackPanel>	
     </Grid>
 </Window>
