@@ -51,12 +51,12 @@
           <Property Name="Yearbook" Type="integer" />
           <Property Name="Image" Type="blob" />
           <Property Name="Comment" Type="nvarchar" MaxLength="2147483647" />
-          <Property Name="Dovecote_Id" Type="integer" Nullable="false" />
-          <Property Name="EyeColor_Id" Type="integer" Nullable="false" />
-          <Property Name="Color_Id" Type="integer" Nullable="false" />
-          <Property Name="Race_Id" Type="integer" Nullable="false" />
-          <Property Name="Line_Id" Type="integer" Nullable="false" />
-          <Property Name="Gender_Id" Type="integer" Nullable="false" />
+          <Property Name="Dovecote" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="EyeColor" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Race" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Line" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="Father" Type="integer" />
           <Property Name="Mother" Type="integer" />
         </EntityType>
@@ -120,19 +120,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="RingNO" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Hatched" Type="DateTime" />
           <Property Name="Yearbook" Type="Int64" />
           <Property Name="Image" Type="Binary" MaxLength="2147483647" FixedLength="false" />
           <Property Name="Comment" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-          <Property Name="Dovecote_Id" Type="Int64" Nullable="false" />
-          <Property Name="EyeColor_Id" Type="Int64" Nullable="false" />
-          <Property Name="Color_Id" Type="Int64" Nullable="false" />
-          <Property Name="Race_Id" Type="Int64" Nullable="false" />
-          <Property Name="Line_Id" Type="Int64" Nullable="false" />
-          <Property Name="Gender_Id" Type="Int64" Nullable="false" />
+          <Property Name="Dovecote" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EyeColor" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Race" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Line" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Father" Type="Int64" />
           <Property Name="Mother" Type="Int64" />
         </EntityType>
@@ -208,12 +208,12 @@
                 <ScalarProperty Name="Yearbook" ColumnName="Yearbook" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Dovecote_Id" ColumnName="Dovecote_Id" />
-                <ScalarProperty Name="EyeColor_Id" ColumnName="EyeColor_Id" />
-                <ScalarProperty Name="Color_Id" ColumnName="Color_Id" />
-                <ScalarProperty Name="Race_Id" ColumnName="Race_Id" />
-                <ScalarProperty Name="Line_Id" ColumnName="Line_Id" />
-                <ScalarProperty Name="Gender_Id" ColumnName="Gender_Id" />
+                <ScalarProperty Name="Dovecote" ColumnName="Dovecote" />
+                <ScalarProperty Name="EyeColor" ColumnName="EyeColor" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Race" ColumnName="Race" />
+                <ScalarProperty Name="Line" ColumnName="Line" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Father" ColumnName="Father" />
                 <ScalarProperty Name="Mother" ColumnName="Mother" />
               </MappingFragment>

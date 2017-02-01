@@ -25,7 +25,7 @@ namespace Dovecote {
 			}
 		}
 
-		public static void Add<T>(T dbSet) {
+		public static Result Add<T>(T dbSet) {
 			try {
 				var type = dbSet.GetType();
 
@@ -59,15 +59,16 @@ namespace Dovecote {
 				}
 
 				Entity.SaveChanges();
-
 				DataChanged?.Invoke();
+				return Result.Success;
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+				return Result.Error;
 			}
 		}
 
-		public static void Remove<T>(T dbSet) {
+		public static Result Remove<T>(T dbSet) {
 			try {
 				var type = dbSet.GetType();
 
@@ -101,9 +102,12 @@ namespace Dovecote {
 				}
 
 				Entity.SaveChanges();
+				DataChanged?.Invoke();
+				return Result.Success;
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+				return Result.Error;
 			}
 		}
 

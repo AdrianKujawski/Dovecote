@@ -5,8 +5,20 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Dovecote.Converter"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="500" MinHeight="500" MinWidth="500" Width="500">
+		Title="MainWindow" Height="600" MinHeight="600" MinWidth="1000" Width="1000">
 	<DockPanel>
+		<DockPanel.Resources>
+			<Style TargetType="{x:Type MenuItem}">
+				<Setter Property="FontSize" Value="16"/>
+			</Style>
+			<Style TargetType="{x:Type Border}">
+				<Setter Property="Margin" Value="5"/>
+				<Setter Property="BorderBrush" Value="DarkGray"/>
+				<Setter Property="Background" Value="GhostWhite"/>
+				<Setter Property="BorderThickness" Value="1"/>
+				<Setter Property="CornerRadius" Value="8"/>
+			</Style>
+		</DockPanel.Resources>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="Plik"/>
 			<MenuItem Header="Hodowla">
@@ -15,29 +27,167 @@
 			</MenuItem>
 		</Menu>
 
-		<Grid DockPanel.Dock="Bottom">
-			<ListView Name="pigeonList">
-				<ListView.Resources>
-					<local:OrdinarConverter x:Key="OrdinarConverter"/>
-					<DataTemplate x:Key="Ordinar">
-						<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
-							Converter={StaticResource ResourceKey=OrdinarConverter}}" HorizontalAlignment="Right" />
-					</DataTemplate>
-				</ListView.Resources>
-				<ListView.View>
-					<GridView AllowsColumnReorder="True">
-						<GridView.Columns>
-							<GridViewColumn Header="LP" CellTemplate="{StaticResource ResourceKey=Ordinar}"/>
-							<GridViewColumn Header="Numer obriączki"
-											DisplayMemberBinding="{Binding RingNO}"/>
-							<GridViewColumn Header="Kolor"
-											DisplayMemberBinding="{Binding Color}"/>
-							<GridViewColumn Header="Rasa"
-											DisplayMemberBinding="{Binding Race}"/>
-						</GridView.Columns>
-					</GridView>
-				</ListView.View>
-			</ListView>
-		</Grid>
+		<StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Stretch">
+			<Grid Background="AliceBlue">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Text="Gołebie" FontSize="28" FontWeight="Bold" Margin="20,0" TextAlignment="Center"/>
+
+				<Border Margin="5" Grid.Column="2" BorderBrush="DarkGray" Background="GhostWhite" BorderThickness="1" Width="60" CornerRadius="8">
+					<StackPanel HorizontalAlignment="Center">
+						<TextBlock Text="Gołebie"/>
+						<TextBlock Name="PigeonCount" Text="0" FontSize="22" TextAlignment="Center"/>
+					</StackPanel>
+				</Border>
+
+				<Border Margin="5" Grid.Column="3" BorderBrush="DarkGray" Background="GhostWhite" BorderThickness="1" Width="60" CornerRadius="8">
+					<StackPanel HorizontalAlignment="Center">
+						<TextBlock Text="Samce"/>
+						<TextBlock Name="MaleCount" Text="0" FontSize="22" TextAlignment="Center"/>
+					</StackPanel>
+				</Border>
+
+				<Border Margin="5" Grid.Column="4" BorderBrush="DarkGray" Background="GhostWhite" BorderThickness="1" Width="60" CornerRadius="8">
+					<StackPanel HorizontalAlignment="Center">
+						<TextBlock Text="Samice"/>
+						<TextBlock Name="FemaleCount" Text="0" FontSize="22" TextAlignment="Center"/>
+					</StackPanel>
+				</Border>
+
+			</Grid>
+
+			<DockPanel VerticalAlignment="Stretch" Height="480">
+				<Border Name="BorderList">
+					<Grid DockPanel.Dock="Left" Margin="10" MinWidth="400" MaxWidth="400">
+						<ListView Name="PigeonList">
+							<ListView.Resources>
+								<local:OrdinarConverter x:Key="OrdinarConverter"/>
+								<DataTemplate x:Key="Ordinar">
+									<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+							Converter={StaticResource ResourceKey=OrdinarConverter}}"
+												HorizontalAlignment="Right"/>
+								</DataTemplate>
+							</ListView.Resources>
+							<ListView.View>
+								<GridView AllowsColumnReorder="True">
+									<GridView.Columns>
+										<GridViewColumn Header="Lp" CellTemplate="{StaticResource ResourceKey=Ordinar}" Width="30"/>
+										<GridViewColumn Header="Numer obriączki"
+														DisplayMemberBinding="{Binding RingNO}"/>
+										<GridViewColumn Header="Kolor"
+														DisplayMemberBinding="{Binding Color}"/>
+										<GridViewColumn Header="Rasa"
+														DisplayMemberBinding="{Binding Race}"/>
+										<GridViewColumn Header="Płeć"
+														DisplayMemberBinding="{Binding Gender}"/>
+									</GridView.Columns>
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</Grid>
+				</Border>
+
+				<Border Name="BorderInfo">
+					<TabControl DockPanel.Dock="Right" Width="400" Margin="10">
+						<TabItem Header="Rodowód">
+							<Grid Margin="5">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*"></RowDefinition>
+									<RowDefinition Height="*"></RowDefinition>
+									<RowDefinition Height="*"></RowDefinition>
+									<RowDefinition Height="*"></RowDefinition>
+								</Grid.RowDefinitions>
+
+								<Border Grid.Column="0" Grid.RowSpan="2">
+									<StackPanel Name="FatherInfo">
+										<Border Margin="0,5" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="0,1,0,1"  CornerRadius="0">
+											<TextBlock Text="-- Ojciec --" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
+										</Border>
+										<TextBlock Text="{Binding NumerRO}" FontWeight="DemiBold" Foreground="DarkRed"></TextBlock>
+										<TextBlock/>
+
+										<TextBlock Text="{Binding Color}"  Foreground="DarkRed"></TextBlock>
+										<TextBlock Text="{Binding Race}" ></TextBlock>
+									</StackPanel>
+								</Border>
+
+								<Border Grid.Column="0" Grid.Row="2" Grid.RowSpan="2">
+									<StackPanel>
+										<Border Margin="0,5" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="0,1,0,1" CornerRadius="0">
+											<TextBlock Text="-- Matka --" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
+										</Border>
+									</StackPanel>
+								</Border>
+
+								<Border Grid.Column="1" Grid.Row="0">
+									<StackPanel Orientation="Horizontal">
+										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
+											<TextBlock Text="Dziadek" TextAlignment="Center" FontSize="14" >
+												<TextBlock.LayoutTransform>
+													<RotateTransform Angle="-90"></RotateTransform>
+												</TextBlock.LayoutTransform>
+											</TextBlock>
+										</Border>
+									</StackPanel>
+								</Border>
+
+								<Border Grid.Column="1" Grid.Row="1">
+									<StackPanel Orientation="Horizontal">
+										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
+											<TextBlock Text="Babka" TextAlignment="Center" FontSize="14" >
+												<TextBlock.LayoutTransform>
+													<RotateTransform Angle="-90"></RotateTransform>
+												</TextBlock.LayoutTransform>
+											</TextBlock>
+										</Border>
+									</StackPanel>
+								</Border>
+
+								<Border Grid.Column="1" Grid.Row="2">
+									<StackPanel Orientation="Horizontal">
+										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
+											<TextBlock Text="Dziadek" TextAlignment="Center" FontSize="14" >
+												<TextBlock.LayoutTransform>
+													<RotateTransform Angle="-90"></RotateTransform>
+												</TextBlock.LayoutTransform>
+											</TextBlock>
+										</Border>
+									</StackPanel>
+								</Border>
+
+								<Border Grid.Column="1" Grid.Row="3">
+									<StackPanel Orientation="Horizontal">
+										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
+											<TextBlock Text="Babka" TextAlignment="Center" FontSize="14" >
+												<TextBlock.LayoutTransform>
+													<RotateTransform Angle="-90"></RotateTransform>
+												</TextBlock.LayoutTransform>
+											</TextBlock>
+										</Border>
+									</StackPanel>
+								</Border>
+							</Grid>
+						</TabItem>
+						<TabItem Header="Zdjęcia"/>
+						<TabItem Header="Potomstwo"/>
+						<TabItem Header="Loty"/>
+					</TabControl>
+				</Border>
+
+				<Grid DockPanel.Dock="Right"/>
+			</DockPanel>
+		</StackPanel>
+
 	</DockPanel>
 </Window>

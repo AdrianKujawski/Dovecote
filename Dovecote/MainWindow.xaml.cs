@@ -20,9 +20,12 @@ namespace Dovecote {
 	/// </summary>
 	public partial class MainWindow : Window {
 
+
 		public MainWindow() {
 			InitializeComponent();
-			pigeonList.Visibility = Visibility.Hidden;
+
+			
+			FatherInfo.DataContext = Provider.GetList<Pigeon>(typeof(Pigeon));
 		}
 
 		void AddPigeon(object sender, RoutedEventArgs e) {
@@ -30,9 +33,8 @@ namespace Dovecote {
 			window.ShowDialog();
 		}
 
-		private void ShowPigeon(object sender, RoutedEventArgs e) {
-			pigeonList.Visibility = Visibility.Visible;
-			pigeonList.ItemsSource = Provider.GetList<Pigeon>(typeof(Pigeon));
+		void ShowPigeon(object sender, RoutedEventArgs e) {
+			PigeonList.ItemsSource = Provider.GetList<Pigeon>(typeof(Pigeon));
 		}
 	}
 }

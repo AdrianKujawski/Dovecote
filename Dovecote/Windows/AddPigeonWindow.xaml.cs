@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -21,9 +23,18 @@ namespace Dovecote.Windows {
 			RaceComboBox.ItemsSource = Provider.GetList<Race>(typeof(Race));
 			LineComboBox.ItemsSource = Provider.GetList<Line>(typeof(Line));
 			EyeColorComboBox.ItemsSource = Provider.GetList<EyeColor>(typeof(EyeColor));
-			DovecoteComboBox.ItemsSource = Provider.GetList<Dovecote>(typeof(Dovecote));
-			FatherComboBox.ItemsSource = Provider.GetList<Pigeon>(typeof(Pigeon));
-			MotherComboBox.ItemsSource = Provider.GetList<Pigeon>(typeof(Pigeon));
+
+			var listOfDovecote = Provider.GetList<Dovecote>(typeof(Dovecote));
+			DovecoteComboBox.ItemsSource = listOfDovecote;
+			FatherInDocecoteComboBox.ItemsSource = listOfDovecote;
+			MotherInDocecoteComboBox.ItemsSource = listOfDovecote;
+
+			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+			if(FatherInDocecoteComboBox.SelectedItem != null)
+				FatherComboBox.ItemsSource = listOfPigeon.Where(p => p.GetFather().Dovecote == FatherInDocecoteComboBox.SelectedItem.ToString());
+
+			if (MotherInDocecoteComboBox.SelectedItem != null)
+				MotherComboBox.ItemsSource = listOfPigeon.Where(p => p.GetMother().Dovecote == MotherInDocecoteComboBox.SelectedItem.ToString());
 		}
 
 		void AddNewValue(object sender, RoutedEventArgs e) {
@@ -69,44 +80,52 @@ namespace Dovecote.Windows {
 			var yearbook = int.Parse(Yearbook.Text);
 			var race = (Race)RaceComboBox.SelectedItem;
 			var line = (Line)LineComboBox.SelectedItem;
-			var name = Name.Text;
+			var name = PigeonName.Text;
 			var hatched = DatePicker.SelectedDate;
 			var eyeColor = (EyeColor)EyeColorComboBox.SelectedItem;
 			var dovecote = (Dovecote)DovecoteComboBox.SelectedItem;
 			var father = (Pigeon)FatherComboBox.SelectedItem;
 			var mother = (Pigeon)MotherComboBox.SelectedItem;
 
-			int gender;
-			if (Male.IsChecked != null && (bool)Male.IsChecked) 
-				gender = 1;
+			string gender;
+			if (Male.IsChecked != null && (bool)Male.IsChecked)
+				gender = Male.Content.ToString();
 			else
-				gender = 2;
+				gender = Female.Content.ToString();
 
 
 			var pigeon = new Pigeon {
 				RingNO = ringNo,
-				Color_Id = color.Id,
+				Color = color.Name,
 				Yearbook = yearbook,
-				Race_Id = race.Id,
-				Line_Id = line.Id,
+				Race = race.Name,
+				Line = line.Name,
 				Name = name,
 				Hatched = hatched,
-				EyeColor_Id = eyeColor.Id,
-				Dovecote_Id = dovecote.Id,
+				EyeColor = eyeColor.Name,
+				Dovecote = dovecote.Name,
 				Father = father?.Id,
 				Mother = mother?.Id,
-				Gender_Id = gender
+				Gender = gender
 			};
 
-			try {
-				Provider.Add(pigeon);
-			}
-			catch (Exception exception) {
-				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
-
-			MessageBox.Show("Pomyślnie dodane gołebia.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
+			var result = Provider.Add(pigeon);
+			
+			if(result == Result.Success)
+				MessageBox.Show("Pomyślnie dodane gołebia.", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
 			Close();
+		}
+
+		void FatherInDocecoteComboBox_LostFocus(object sender, RoutedEventArgs e) {
+			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+			if (FatherInDocecoteComboBox.SelectedItem != null)
+				FatherComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == FatherInDocecoteComboBox.SelectedItem.ToString());
+		}
+
+		void MotherInDocecoteComboBox_LostFocus(object sender, RoutedEventArgs e) {
+			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+			if (MotherInDocecoteComboBox.SelectedItem != null)
+				MotherComboBox.ItemsSource = listOfPigeon.Where(p => p.GetMother().Dovecote == MotherInDocecoteComboBox.SelectedItem.ToString());
 		}
 	}
 }

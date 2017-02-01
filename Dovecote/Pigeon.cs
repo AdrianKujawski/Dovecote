@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace Dovecote
 {
     using System;
@@ -21,17 +23,29 @@ namespace Dovecote
         public Nullable<long> Yearbook { get; set; }
         public byte[] Image { get; set; }
         public string Comment { get; set; }
-        public long Dovecote_Id { get; set; }
-        public long EyeColor_Id { get; set; }
-        public long Color_Id { get; set; }
-        public long Race_Id { get; set; }
-        public long Line_Id { get; set; }
-        public long Gender_Id { get; set; }
+        public string Dovecote { get; set; }
+        public string EyeColor { get; set; }
+        public string Color { get; set; }
+        public string Race { get; set; }
+        public string Line { get; set; }
+        public string Gender { get; set; }
         public Nullable<long> Father { get; set; }
         public Nullable<long> Mother { get; set; }
 
 		public override string ToString() {
-			return $"{RingNO}, {Name}";
-;		}
+			return $"{RingNO} {Name}";
+		}
+
+	    public Pigeon GetFather() {
+		    var pigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+		    return pigeon.FirstOrDefault(p => p.Id == Father);
+	    }
+
+		public Pigeon GetMother() {
+			var pigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+			return pigeon.FirstOrDefault(p => p.Id == Mother);
+		}
+
+		
 	}
 }

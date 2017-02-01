@@ -53,45 +53,45 @@
 			<TextBox Name="RingNo" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Barwa" Grid.Column="0" Grid.Row="1"/>
-			<ComboBox Name="ColorComboBox" Grid.Column="1" Grid.Row="1"/>
+			<ComboBox Name="ColorComboBox" Grid.Column="1" Grid.Row="1" Text="Wybierz kolor" IsEditable="True" />
 			<Button Tag="Color" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="1"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Płeć" Grid.Column="0" Grid.Row="2"/>
 			<RadioButton Name="Male" GroupName="Gender" Content="Samiec" Grid.Column="1" Grid.Row="2" IsChecked="True"/>
-			<RadioButton GroupName="Gender" Content="Samiec" Grid.Column="2" Grid.Row="2"/>
+			<RadioButton Name="Female" GroupName="Gender" Content="Samiec" Grid.Column="2" Grid.Row="2"/>
 
 			<TextBlock  VerticalAlignment="Center" Text="Rocznik" Grid.Column="0" Grid.Row="3"/>
 			<TextBox Name="Yearbook" Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Rasa" Grid.Column="0" Grid.Row="4"/>
-			<ComboBox Name="RaceComboBox" Grid.Column="1" Grid.Row="4"/>
+			<ComboBox Name="RaceComboBox" Grid.Column="1" Grid.Row="4" Text="Wybierz rase" IsEditable="True"/>
 			<Button Tag="Race" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="4"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Linia" Grid.Column="0" Grid.Row="5"/>
-			<ComboBox Name="LineComboBox" Grid.Column="1" Grid.Row="5"/>
+			<ComboBox Name="LineComboBox" Grid.Column="1" Grid.Row="5" Text="Wybierz lini" IsEditable="True"/>
 			<Button Tag="Line" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="5"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Nazwa" Grid.Column="0" Grid.Row="6"/>
-			<TextBox  Name="Name" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"/>
+			<TextBox  Name="PigeonName" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Wykluty" Grid.Column="0" Grid.Row="7"/>
 			<DatePicker Name="DatePicker" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></DatePicker>
 
 			<TextBlock VerticalAlignment="Center" Text="Kolor oka" Grid.Column="0" Grid.Row="8"/>
-			<ComboBox Name="EyeColorComboBox" Grid.Column="1" Grid.Row="8"/>
+			<ComboBox Name="EyeColorComboBox" Grid.Column="1" Grid.Row="8" Text="Wybierz kolor oka" IsEditable="True"/>
 			<Button Tag="EyeColor" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="8"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Gołebnik" Grid.Column="0" Grid.Row="9"/>
-			<ComboBox Name="DovecoteComboBox" Grid.Column="1" Grid.Row="9"/>
+			<ComboBox Name="DovecoteComboBox" Grid.Column="1" Grid.Row="9" Text="Wybierz gołebnik" IsEditable="True"/>
 			<Button Tag="Dovecote" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="9"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Ojciec" Grid.Column="0" Grid.Row="10"/>
-			<ComboBox Name="FatherComboBox" Grid.Column="1" Grid.Row="10"/>
-			<ComboBox Name="FatherInDocecoteComboBox" Grid.Column="2" Grid.Row="10"/>
+			<ComboBox Name="FatherComboBox" Grid.Column="1" Grid.Row="10" Text="Wybierz ojca" IsEditable="True"/>
+			<ComboBox Name="FatherInDocecoteComboBox" Grid.Column="2" Grid.Row="10" Text="W gołebniku" IsEditable="True" LostFocus="FatherInDocecoteComboBox_LostFocus"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Matka" Grid.Column="0" Grid.Row="11"/>
-			<ComboBox Name="MotherComboBox" Grid.Column="1" Grid.Row="11"/>
-			<ComboBox Name="MotherInDocecoteComboBox" Grid.Column="2" Grid.Row="11"/>
+			<ComboBox Name="MotherComboBox" Grid.Column="1" Grid.Row="11" Text="Wybierz matkę" IsEditable="True"/>
+			<ComboBox Name="MotherInDocecoteComboBox" Grid.Column="2" Grid.Row="11" Text="W gołębniku" IsEditable="True" LostFocus="MotherInDocecoteComboBox_LostFocus" />
 
 			<Button Margin="0" Height="25" Content="Dodaj" Click="AddPigeon" Grid.Row="13" Grid.ColumnSpan="3"></Button>
 		</Grid>
