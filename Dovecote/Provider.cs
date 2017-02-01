@@ -5,6 +5,11 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace Dovecote {
 
@@ -54,9 +59,11 @@ namespace Dovecote {
 				}
 
 				Entity.SaveChanges();
+
+				DataChanged?.Invoke();
 			}
-			catch (Exception) {
-				//TODO
+			catch (Exception exception) {
+				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
@@ -95,10 +102,52 @@ namespace Dovecote {
 
 				Entity.SaveChanges();
 			}
-			catch (Exception) {
-				//TODO
+			catch (Exception exception) {
+				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
+
+		public static IEnumerable GetList<T>(Type type) {
+			try {
+				if (type == typeof(Color)) {
+					return Entity.Color.ToList();
+				}
+
+				if (type == typeof(EyeColor)) {
+					return Entity.EyeColor.ToList();
+				}
+
+				if (type == typeof(Gender)) {
+					return Entity.Gender.ToList();
+				}
+
+				if (type == typeof(Dovecote)) {
+					return Entity.Dovecote.ToList();
+				}
+
+				if (type == typeof(Line)) {
+					return Entity.Line.ToList();
+				}
+
+				if (type == typeof(Pigeon)) {
+					return Entity.Pigeon.ToList();
+				}
+
+				if (type == typeof(Race)) {
+					return Entity.Race.ToList();
+				}
+
+			}
+			catch (Exception exception) {
+				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+
+			throw new Exception($"Brak typu{type}");
+
+		}
+
+		public delegate void RefreshData();
+		public static event RefreshData DataChanged;
 	}
 
 }

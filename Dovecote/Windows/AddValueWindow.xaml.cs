@@ -14,11 +14,10 @@ namespace Dovecote.Windows {
 	/// Interaction logic for AddValue.xaml
 	/// </summary>
 	public partial class AddValueWindow : Window {
-		readonly Type _type;
+		public Type Type { get; set; }
 
-		public AddValueWindow(Type type) {
+		public AddValueWindow() {
 			InitializeComponent();
-			_type = type;
 		}
 
 		void Add(object sender, RoutedEventArgs e) {
@@ -28,18 +27,30 @@ namespace Dovecote.Windows {
 
 		void ChooseValueType() {
 			object value = null;
-			if (_type == typeof(Color)) {
-				value = new Color { Name = TextBox.Text };
+			if (Type == typeof(Color)) {
+				value = new Color { Name = UserValue.Text };
 			}
-			if (_type == typeof(Race)) {
-				value = new Race { Name = TextBox.Text };
-			}
-
-			if (_type == typeof(Line)) {
-				value = new Line { Name = TextBox.Text };
+			if (Type == typeof(Race)) {
+				value = new Race { Name = UserValue.Text };
 			}
 
-			if(value != null)
+			if (Type == typeof(Line)) {
+				value = new Line { Name = UserValue.Text };
+			}
+
+			if (Type == typeof(EyeColor)) {
+				value = new EyeColor { Name = UserValue.Text };
+			}
+
+			if (Type == typeof(Dovecote)) {
+				value = new Dovecote { Name = UserValue.Text };
+			}
+
+			if (Type == typeof(Pigeon)) {
+				value = new Pigeon { Name = UserValue.Text };
+			}
+
+			if (value != null)
 				Provider.Add(value);
 		}
 	}

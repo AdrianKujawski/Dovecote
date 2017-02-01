@@ -3,23 +3,27 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="clr-namespace:Dovecote.Windows"
+		xmlns:enum="clr-namespace:Dovecote.Properties"
 		mc:Ignorable="d"
-		Title="AddPigeon" Height="300" Width="300">
+		Title="AddPigeon" Height="550" MinHeight="525" MinWidth="400" Width="400"
+		>
 	<StackPanel>
 		<Grid Margin="20">
 			<Grid.Resources>
 				<Style TargetType="{x:Type TextBox}">
-					<Setter Property="Margin" Value="5" />
+					<Setter Property="Margin" Value="5"/>
+				</Style>
+				<Style TargetType="{x:Type DatePicker}">
+					<Setter Property="Margin" Value="5"/>
 				</Style>
 				<Style TargetType="{x:Type Button}">
-					<Setter Property="Margin" Value="5" />
+					<Setter Property="Margin" Value="5"/>
 				</Style>
 				<Style TargetType="{x:Type ComboBox}">
-					<Setter Property="Margin" Value="5" />
+					<Setter Property="Margin" Value="5"/>
 				</Style>
 				<Style TargetType="{x:Type RadioButton}">
-					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="VerticalAlignment" Value="Center"/>
 				</Style>
 			</Grid.Resources>
 			<Grid.ColumnDefinitions>
@@ -35,35 +39,61 @@
 				<RowDefinition MinHeight="30"/>
 				<RowDefinition MinHeight="30"/>
 				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
+				<RowDefinition MinHeight="30"/>
 			</Grid.RowDefinitions>
 
 
-			<TextBlock VerticalAlignment="Center" Text="Numer ob." Grid.Column="0" Grid.Row="0"/>
-			<TextBox Grid.Column="1" Grid.Row="0"/>
+			<TextBlock  VerticalAlignment="Center" Text="Numer ob." Grid.Column="0" Grid.Row="0"/>
+			<TextBox Name="RingNo" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Barwa" Grid.Column="0" Grid.Row="1"/>
 			<ComboBox Name="ColorComboBox" Grid.Column="1" Grid.Row="1"/>
-			<Button Content="Dodaj" Click="AddColor" Grid.Column="2" Grid.Row="1"/>
+			<Button Tag="Color" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="1"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Płeć" Grid.Column="0" Grid.Row="2"/>
-			<RadioButton GroupName="Gender" Content="Samiec" Grid.Column="1" Grid.Row="2"/>
-			<RadioButton GroupName="Gender" Content="Samiec" Grid.Column="3" Grid.Row="2" />
+			<RadioButton Name="Male" GroupName="Gender" Content="Samiec" Grid.Column="1" Grid.Row="2" IsChecked="True"/>
+			<RadioButton GroupName="Gender" Content="Samiec" Grid.Column="2" Grid.Row="2"/>
 
-			<TextBlock VerticalAlignment="Center" Text="Rocznik" Grid.Column="0" Grid.Row="3"/>
-			<TextBox Grid.Column="1" Grid.Row="3"></TextBox>
+			<TextBlock  VerticalAlignment="Center" Text="Rocznik" Grid.Column="0" Grid.Row="3"/>
+			<TextBox Name="Yearbook" Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Rasa" Grid.Column="0" Grid.Row="4"/>
 			<ComboBox Name="RaceComboBox" Grid.Column="1" Grid.Row="4"/>
-			<Button Content="Dodaj" Click="AddRace" Grid.Column="2" Grid.Row="4"/>
+			<Button Tag="Race" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="4"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Linia" Grid.Column="0" Grid.Row="5"/>
 			<ComboBox Name="LineComboBox" Grid.Column="1" Grid.Row="5"/>
-			<Button Content="Dodaj" Click="AddLine" Grid.Column="2" Grid.Row="5"/>
+			<Button Tag="Line" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="5"/>
 
 			<TextBlock VerticalAlignment="Center" Text="Nazwa" Grid.Column="0" Grid.Row="6"/>
-			<TextBox Grid.Column="1" Grid.Row="6"/>
-			
-			
+			<TextBox  Name="Name" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"/>
+
+			<TextBlock VerticalAlignment="Center" Text="Wykluty" Grid.Column="0" Grid.Row="7"/>
+			<DatePicker Name="DatePicker" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></DatePicker>
+
+			<TextBlock VerticalAlignment="Center" Text="Kolor oka" Grid.Column="0" Grid.Row="8"/>
+			<ComboBox Name="EyeColorComboBox" Grid.Column="1" Grid.Row="8"/>
+			<Button Tag="EyeColor" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="8"/>
+
+			<TextBlock VerticalAlignment="Center" Text="Gołebnik" Grid.Column="0" Grid.Row="9"/>
+			<ComboBox Name="DovecoteComboBox" Grid.Column="1" Grid.Row="9"/>
+			<Button Tag="Dovecote" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="9"/>
+
+			<TextBlock VerticalAlignment="Center" Text="Ojciec" Grid.Column="0" Grid.Row="10"/>
+			<ComboBox Name="FatherComboBox" Grid.Column="1" Grid.Row="10"/>
+			<ComboBox Name="FatherInDocecoteComboBox" Grid.Column="2" Grid.Row="10"/>
+
+			<TextBlock VerticalAlignment="Center" Text="Matka" Grid.Column="0" Grid.Row="11"/>
+			<ComboBox Name="MotherComboBox" Grid.Column="1" Grid.Row="11"/>
+			<ComboBox Name="MotherInDocecoteComboBox" Grid.Column="2" Grid.Row="11"/>
+
+			<Button Margin="0" Height="25" Content="Dodaj" Click="AddPigeon" Grid.Row="13" Grid.ColumnSpan="3"></Button>
 		</Grid>
 	</StackPanel>
 </Window>
