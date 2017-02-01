@@ -19,13 +19,20 @@ namespace Dovecote {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+
 		public MainWindow() {
 			InitializeComponent();
+			pigeonList.Visibility = Visibility.Hidden;
 		}
 
 		void AddPigeon(object sender, RoutedEventArgs e) {
 			var window = new AddPigeonWindow();
 			window.ShowDialog();
+		}
+
+		private void ShowPigeon(object sender, RoutedEventArgs e) {
+			pigeonList.Visibility = Visibility.Visible;
+			pigeonList.ItemsSource = Provider.GetList<Pigeon>(typeof(Pigeon));
 		}
 	}
 }

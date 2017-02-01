@@ -3,15 +3,41 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="clr-namespace:Dovecote"
+		xmlns:local="clr-namespace:Dovecote.Converter"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="640" Width="525">
+		Title="MainWindow" Height="500" MinHeight="500" MinWidth="500" Width="500">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="Plik"/>
 			<MenuItem Header="Hodowla">
 				<MenuItem Header="Nowy gołąb" Click="AddPigeon"/>
+				<MenuItem Header="Pokaż gołębie" Click="ShowPigeon"/>
 			</MenuItem>
 		</Menu>
+
+		<Grid DockPanel.Dock="Bottom">
+			<ListView Name="pigeonList">
+				<ListView.Resources>
+					<local:OrdinarConverter x:Key="OrdinarConverter"/>
+					<DataTemplate x:Key="Ordinar">
+						<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+							Converter={StaticResource ResourceKey=OrdinarConverter}}" HorizontalAlignment="Right" />
+					</DataTemplate>
+				</ListView.Resources>
+				<ListView.View>
+					<GridView AllowsColumnReorder="True">
+						<GridView.Columns>
+							<GridViewColumn Header="LP" CellTemplate="{StaticResource ResourceKey=Ordinar}"/>
+							<GridViewColumn Header="Numer obriączki"
+											DisplayMemberBinding="{Binding RingNO}"/>
+							<GridViewColumn Header="Kolor"
+											DisplayMemberBinding="{Binding Color}"/>
+							<GridViewColumn Header="Rasa"
+											DisplayMemberBinding="{Binding Race}"/>
+						</GridView.Columns>
+					</GridView>
+				</ListView.View>
+			</ListView>
+		</Grid>
 	</DockPanel>
 </Window>

@@ -85,6 +85,7 @@
     <Compile Include="Color.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converter\OrdinarConverter.cs" />
     <Compile Include="Dovecote.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
@@ -199,6 +200,7 @@
       <LastGenOutput>Hodowla.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
