@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="HodowlaModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=E:\OneDrive\Hodowla.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
         <EntityType Name="Color">
           <Key>
             <PropertyRef Name="Id" />
@@ -48,17 +55,20 @@
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
           <Property Name="RingNO" Type="varchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="Hatched" Type="datetime" />
-          <Property Name="Yearbook" Type="integer" />
+          <Property Name="Yearbook" Type="integer" Nullable="false" />
           <Property Name="Image" Type="blob" />
           <Property Name="Comment" Type="nvarchar" MaxLength="2147483647" />
           <Property Name="Dovecote" Type="varchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="EyeColor" Type="varchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="Color" Type="varchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="Race" Type="varchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="Line" Type="varchar" MaxLength="2147483647" Nullable="false" />
-          <Property Name="Gender" Type="varchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="EyeColor" Type="varchar" MaxLength="2147483647" />
+          <Property Name="Color" Type="varchar" MaxLength="2147483647" />
+          <Property Name="Race" Type="varchar" MaxLength="2147483647" />
+          <Property Name="Line" Type="varchar" MaxLength="2147483647" />
+          <Property Name="Gender" Type="varchar" MaxLength="2147483647" />
           <Property Name="Father" Type="integer" />
           <Property Name="Mother" Type="integer" />
+          <Property Name="Statue" Type="varchar" MaxLength="2147483647" />
+          <Property Name="Category" Type="varchar" MaxLength="2147483647" />
+          <Property Name="EyeImage" Type="blob" />
         </EntityType>
         <EntityType Name="Race">
           <Key>
@@ -67,7 +77,22 @@
           <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" Nullable="false" />
         </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yearbook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="integer" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="HodowlaModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" store:Type="Tables" />
           <EntitySet Name="Color" EntityType="Self.Color" store:Type="Tables" />
           <EntitySet Name="Dovecote" EntityType="Self.Dovecote" store:Type="Tables" />
           <EntitySet Name="EyeColor" EntityType="Self.EyeColor" store:Type="Tables" />
@@ -75,12 +100,21 @@
           <EntitySet Name="Line" EntityType="Self.Line" store:Type="Tables" />
           <EntitySet Name="Pigeon" EntityType="Self.Pigeon" store:Type="Tables" />
           <EntitySet Name="Race" EntityType="Self.Race" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" store:Type="Tables" />
+          <EntitySet Name="Yearbook" EntityType="Self.Yearbook" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HodowlaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
         <EntityType Name="Color">
           <Key>
             <PropertyRef Name="Id" />
@@ -120,21 +154,24 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="RingNO" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Hatched" Type="DateTime" />
-          <Property Name="Yearbook" Type="Int64" />
+          <Property Name="Yearbook" Type="Int64" Nullable="false" />
           <Property Name="Image" Type="Binary" MaxLength="2147483647" FixedLength="false" />
           <Property Name="Comment" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Name="Dovecote" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EyeColor" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Color" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Race" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Line" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Gender" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EyeColor" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Race" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Line" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="Father" Type="Int64" />
           <Property Name="Mother" Type="Int64" />
+          <Property Name="Statue" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="EyeImage" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
         <EntityType Name="Race">
           <Key>
@@ -143,7 +180,22 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yearbook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="Int64" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="HodowlaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Category" EntityType="Self.Category" />
           <EntitySet Name="Color" EntityType="Self.Color" />
           <EntitySet Name="Dovecote" EntityType="Self.Dovecote" />
           <EntitySet Name="EyeColor" EntityType="Self.EyeColor" />
@@ -151,6 +203,8 @@
           <EntitySet Name="Line" EntityType="Self.Line" />
           <EntitySet Name="Pigeon" EntityType="Self.Pigeon" />
           <EntitySet Name="Race" EntityType="Self.Race" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Yearbook" EntityType="Self.Yearbook" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -158,6 +212,14 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="HodowlaModelStoreContainer" CdmEntityContainer="HodowlaEntities">
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="HodowlaModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Color">
             <EntityTypeMapping TypeName="HodowlaModel.Color">
               <MappingFragment StoreEntitySet="Color">
@@ -216,12 +278,31 @@
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Father" ColumnName="Father" />
                 <ScalarProperty Name="Mother" ColumnName="Mother" />
+                <ScalarProperty Name="Statue" ColumnName="Statue" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="EyeImage" ColumnName="EyeImage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Race">
             <EntityTypeMapping TypeName="HodowlaModel.Race">
               <MappingFragment StoreEntitySet="Race">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="HodowlaModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yearbook">
+            <EntityTypeMapping TypeName="HodowlaModel.Yearbook">
+              <MappingFragment StoreEntitySet="Yearbook">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>

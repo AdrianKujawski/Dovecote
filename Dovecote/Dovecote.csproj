@@ -82,6 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Category.cs">
+      <DependentUpon>Hodowla.tt</DependentUpon>
+    </Compile>
     <Compile Include="Color.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
@@ -122,11 +125,17 @@
     <Compile Include="Race.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>Hodowla.tt</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddPigeonWindow.xaml.cs">
       <DependentUpon>AddPigeonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AddValueWindow.xaml.cs">
       <DependentUpon>AddValueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Yearbook.cs">
+      <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

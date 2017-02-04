@@ -12,13 +12,13 @@ namespace Dovecote
     using System;
     using System.Collections.Generic;
     
-    public partial class Dovecote
+    public partial class Yearbook
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        public long Name { get; set; }
 
 		public override string ToString() {
-			return Name;
+			return Name.ToString();
 		}
 	}
 }

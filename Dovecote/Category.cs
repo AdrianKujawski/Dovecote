@@ -12,13 +12,13 @@ namespace Dovecote
     using System;
     using System.Collections.Generic;
     
-    public partial class Dovecote
+    public partial class Category
     {
         public long Id { get; set; }
         public string Name { get; set; }
 
-		public override string ToString() {
-			return Name;
-		}
-	}
+	    public override string ToString() {
+		    return Name;
+	    }
+    }
 }

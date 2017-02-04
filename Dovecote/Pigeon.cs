@@ -6,7 +6,6 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
 using System.Linq;
 
 namespace Dovecote
@@ -20,7 +19,7 @@ namespace Dovecote
         public string Name { get; set; }
         public string RingNO { get; set; }
         public Nullable<System.DateTime> Hatched { get; set; }
-        public Nullable<long> Yearbook { get; set; }
+        public long Yearbook { get; set; }
         public byte[] Image { get; set; }
         public string Comment { get; set; }
         public string Dovecote { get; set; }
@@ -31,21 +30,22 @@ namespace Dovecote
         public string Gender { get; set; }
         public Nullable<long> Father { get; set; }
         public Nullable<long> Mother { get; set; }
+        public string Statue { get; set; }
+        public string Category { get; set; }
+        public byte[] EyeImage { get; set; }
 
 		public override string ToString() {
 			return $"{RingNO} {Name}";
 		}
 
-	    public Pigeon GetFather() {
-		    var pigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
-		    return pigeon.FirstOrDefault(p => p.Id == Father);
-	    }
+		public Pigeon GetFather() {
+			var pigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+			return pigeon.FirstOrDefault(p => p.Id == Father);
+		}
 
 		public Pigeon GetMother() {
 			var pigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
 			return pigeon.FirstOrDefault(p => p.Id == Mother);
 		}
-
-		
 	}
 }

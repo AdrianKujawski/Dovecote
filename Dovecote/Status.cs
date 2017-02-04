@@ -12,7 +12,7 @@ namespace Dovecote
     using System;
     using System.Collections.Generic;
     
-    public partial class Dovecote
+    public partial class Status
     {
         public long Id { get; set; }
         public string Name { get; set; }

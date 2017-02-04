@@ -57,10 +57,13 @@ namespace Dovecote {
 					var value = (Race)(object)dbSet;
 					Entity.Race.Add(value);
 				}
+				else if (type == typeof(Yearbook)) {
+					var value = (Yearbook)(object)dbSet;
+					Entity.Yearbook.Add(value);
+				}
 
-				Entity.SaveChanges();
-				DataChanged?.Invoke();
-				return Result.Success;
+
+				return SaveChanges<T>(type);
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -101,9 +104,7 @@ namespace Dovecote {
 					Entity.Race.Remove(value);
 				}
 
-				Entity.SaveChanges();
-				DataChanged?.Invoke();
-				return Result.Success;
+				return SaveChanges<T>(type);
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -141,14 +142,29 @@ namespace Dovecote {
 					return Entity.Race.ToList();
 				}
 
+				if (type == typeof(Yearbook)) {
+					return Entity.Yearbook.ToList();
+				}
+
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
-			throw new Exception($"Brak typu{type}");
+			MessageBox.Show($"Brak typu {type}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+			return null;
 
 		}
+
+		static Result SaveChanges<T>(Type type) {
+			var result = Entity.SaveChanges();
+			if (result == 0)
+				throw new Exception($"Brak cechy {type}");
+
+			DataChanged?.Invoke();
+			return Result.Success;
+		}
+
 
 		public delegate void RefreshData();
 		public static event RefreshData DataChanged;

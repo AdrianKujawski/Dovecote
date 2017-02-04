@@ -25,6 +25,7 @@ namespace Dovecote
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Color> Color { get; set; }
         public virtual DbSet<Dovecote> Dovecote { get; set; }
         public virtual DbSet<EyeColor> EyeColor { get; set; }
@@ -32,5 +33,7 @@ namespace Dovecote
         public virtual DbSet<Line> Line { get; set; }
         public virtual DbSet<Pigeon> Pigeon { get; set; }
         public virtual DbSet<Race> Race { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Yearbook> Yearbook { get; set; }
     }
 }

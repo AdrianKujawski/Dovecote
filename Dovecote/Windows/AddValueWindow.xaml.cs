@@ -21,37 +21,57 @@ namespace Dovecote.Windows {
 		}
 
 		void Add(object sender, RoutedEventArgs e) {
-			ChooseValueType();
-			Close();
+			var result = AddNewValue();
+			if(result == Result.Success)
+				Close();
 		}
 
-		void ChooseValueType() {
-			object value = null;
-			if (Type == typeof(Color)) {
-				value = new Color { Name = UserValue.Text };
+		Result AddNewValue() {
+			try {
+				object value = null;
+				if (Type == typeof(Color)) {
+					value = new Color { Name = UserValue.Text };
+				}
+				if (Type == typeof(Race)) {
+					value = new Race { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(Line)) {
+					value = new Line { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(EyeColor)) {
+					value = new EyeColor { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(Dovecote)) {
+					value = new Dovecote { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(Pigeon)) {
+					value = new Pigeon { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(Yearbook)) {
+					value = new Yearbook { Name = int.Parse(UserValue.Text) };
+				}
+
+				if (value == null) throw new Exception($"Brak cechy {Type}");
+
+				var result = Provider.Add(value);
+
+				if(result == Result.Success)
+					return Result.Success;
 			}
-			if (Type == typeof(Race)) {
-				value = new Race { Name = UserValue.Text };
+			catch (FormatException) {
+				MessageBox.Show("Rok musi być liczbą.","Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+			catch (Exception exception) {
+				MessageBox.Show("Dodanie cechy nie powiodło się." + Environment.NewLine + exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
-			if (Type == typeof(Line)) {
-				value = new Line { Name = UserValue.Text };
-			}
-
-			if (Type == typeof(EyeColor)) {
-				value = new EyeColor { Name = UserValue.Text };
-			}
-
-			if (Type == typeof(Dovecote)) {
-				value = new Dovecote { Name = UserValue.Text };
-			}
-
-			if (Type == typeof(Pigeon)) {
-				value = new Pigeon { Name = UserValue.Text };
-			}
-
-			if (value != null)
-				Provider.Add(value);
+			return Result.Error;
+				 
 		}
 	}
 

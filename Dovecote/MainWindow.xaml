@@ -27,8 +27,13 @@
 			</MenuItem>
 		</Menu>
 
-		<StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Stretch">
-			<Grid Background="AliceBlue">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</Grid.RowDefinitions>
+			
+			<Grid Background="LightBlue">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="*"/>
@@ -42,7 +47,7 @@
 
 				<Border Margin="5" Grid.Column="2" BorderBrush="DarkGray" Background="GhostWhite" BorderThickness="1" Width="60" CornerRadius="8">
 					<StackPanel HorizontalAlignment="Center">
-						<TextBlock Text="Gołebie"/>
+						<TextBlock Text="Gołebie" HorizontalAlignment="Stretch"/>
 						<TextBlock Name="PigeonCount" Text="0" FontSize="22" TextAlignment="Center"/>
 					</StackPanel>
 				</Border>
@@ -63,39 +68,34 @@
 
 			</Grid>
 
-			<DockPanel VerticalAlignment="Stretch" Height="480">
+			<Grid Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="150"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"></RowDefinition>
+				</Grid.RowDefinitions>
+
 				<Border Name="BorderList">
-					<Grid DockPanel.Dock="Left" Margin="10" MinWidth="400" MaxWidth="400">
-						<ListView Name="PigeonList">
-							<ListView.Resources>
-								<local:OrdinarConverter x:Key="OrdinarConverter"/>
-								<DataTemplate x:Key="Ordinar">
-									<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
-							Converter={StaticResource ResourceKey=OrdinarConverter}}"
-												HorizontalAlignment="Right"/>
-								</DataTemplate>
-							</ListView.Resources>
-							<ListView.View>
-								<GridView AllowsColumnReorder="True">
-									<GridView.Columns>
-										<GridViewColumn Header="Lp" CellTemplate="{StaticResource ResourceKey=Ordinar}" Width="30"/>
-										<GridViewColumn Header="Numer obriączki"
-														DisplayMemberBinding="{Binding RingNO}"/>
-										<GridViewColumn Header="Kolor"
-														DisplayMemberBinding="{Binding Color}"/>
-										<GridViewColumn Header="Rasa"
-														DisplayMemberBinding="{Binding Race}"/>
-										<GridViewColumn Header="Płeć"
-														DisplayMemberBinding="{Binding Gender}"/>
-									</GridView.Columns>
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</Grid>
+					<DataGrid Margin="10"  Name="DataGrid" Width="Auto" SelectionMode="Single" AutoGenerateColumns="False" LoadingRow="DataGrid_OnLoadingRow" RowHeaderWidth="20" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Numer obrączki" Binding="{Binding RingNO}" Width="Auto"/>
+							<DataGridTextColumn Header="Kolor" Binding="{Binding Color}" Width="*"/>
+							<DataGridTextColumn Header="Rasa" Binding="{Binding Race}" Width="*"/>
+							<DataGridTextColumn Header="Płeć" Binding="{Binding Gender}" Width="*"/>
+						</DataGrid.Columns>
+					</DataGrid>
 				</Border>
 
-				<Border Name="BorderInfo">
-					<TabControl DockPanel.Dock="Right" Width="400" Margin="10">
+				<Border Name="BorderInfo" Grid.Column="1">
+					<TabControl DockPanel.Dock="Right" Width="Auto" Margin="10">
+						<TabControl.Resources>
+								<Style TargetType="{x:Type TextBlock}">
+									<Setter Property="FontSize" Value="16"/>
+								</Style>
+						</TabControl.Resources>
 						<TabItem Header="Rodowód">
 							<Grid Margin="5">
 								<Grid.ColumnDefinitions>
@@ -114,24 +114,29 @@
 										<Border Margin="0,5" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="0,1,0,1"  CornerRadius="0">
 											<TextBlock Text="-- Ojciec --" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
 										</Border>
-										<TextBlock Text="{Binding NumerRO}" FontWeight="DemiBold" Foreground="DarkRed"></TextBlock>
+										<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
 										<TextBlock/>
 
-										<TextBlock Text="{Binding Color}"  Foreground="DarkRed"></TextBlock>
-										<TextBlock Text="{Binding Race}" ></TextBlock>
+										<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+										<TextBlock Text="{Binding Race}"/>
 									</StackPanel>
 								</Border>
 
 								<Border Grid.Column="0" Grid.Row="2" Grid.RowSpan="2">
-									<StackPanel>
+									<StackPanel Name="MotherInfo">
 										<Border Margin="0,5" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="0,1,0,1" CornerRadius="0">
 											<TextBlock Text="-- Matka --" TextAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
 										</Border>
+										<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
+										<TextBlock/>
+
+										<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+										<TextBlock Text="{Binding Race}"/>
 									</StackPanel>
 								</Border>
 
 								<Border Grid.Column="1" Grid.Row="0">
-									<StackPanel Orientation="Horizontal">
+									<StackPanel Orientation="Horizontal" Name="GrandfatherOneInfo">
 										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
 											<TextBlock Text="Dziadek" TextAlignment="Center" FontSize="14" >
 												<TextBlock.LayoutTransform>
@@ -139,11 +144,20 @@
 												</TextBlock.LayoutTransform>
 											</TextBlock>
 										</Border>
+										
+										<StackPanel>
+											<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
+											<TextBlock/>
+
+											<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+											<TextBlock Text="{Binding Race}"/>
+										</StackPanel>
+										
 									</StackPanel>
 								</Border>
 
 								<Border Grid.Column="1" Grid.Row="1">
-									<StackPanel Orientation="Horizontal">
+									<StackPanel Orientation="Horizontal" Name="GrandMotherOneInfo">
 										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
 											<TextBlock Text="Babka" TextAlignment="Center" FontSize="14" >
 												<TextBlock.LayoutTransform>
@@ -151,11 +165,18 @@
 												</TextBlock.LayoutTransform>
 											</TextBlock>
 										</Border>
+										<StackPanel>
+											<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
+											<TextBlock/>
+
+											<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+											<TextBlock Text="{Binding Race}"/>
+										</StackPanel>
 									</StackPanel>
 								</Border>
 
 								<Border Grid.Column="1" Grid.Row="2">
-									<StackPanel Orientation="Horizontal">
+									<StackPanel Orientation="Horizontal" Name="GrandfatherTwoInfo">
 										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
 											<TextBlock Text="Dziadek" TextAlignment="Center" FontSize="14" >
 												<TextBlock.LayoutTransform>
@@ -163,11 +184,18 @@
 												</TextBlock.LayoutTransform>
 											</TextBlock>
 										</Border>
+										<StackPanel>
+											<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
+											<TextBlock/>
+
+											<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+											<TextBlock Text="{Binding Race}"/>
+										</StackPanel>
 									</StackPanel>
 								</Border>
 
 								<Border Grid.Column="1" Grid.Row="3">
-									<StackPanel Orientation="Horizontal">
+									<StackPanel Orientation="Horizontal" Name="GrandMotherTwoInfo">
 										<Border Margin="5,0" BorderBrush="DarkGray" Background="AliceBlue" BorderThickness="1,0,1,0" CornerRadius="0">
 											<TextBlock Text="Babka" TextAlignment="Center" FontSize="14" >
 												<TextBlock.LayoutTransform>
@@ -175,6 +203,13 @@
 												</TextBlock.LayoutTransform>
 											</TextBlock>
 										</Border>
+										<StackPanel>
+											<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
+											<TextBlock/>
+
+											<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
+											<TextBlock Text="{Binding Race}"/>
+										</StackPanel>
 									</StackPanel>
 								</Border>
 							</Grid>
@@ -185,9 +220,41 @@
 					</TabControl>
 				</Border>
 
-				<Grid DockPanel.Dock="Right"/>
-			</DockPanel>
-		</StackPanel>
+				<StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
+					<StackPanel.Resources>
+						<Style TargetType="{x:Type Button}">
+							<Setter Property="FontSize" Value="14"/>
+							<Setter Property="Background" Value="AliceBlue"/>
+							<Setter Property="BorderThickness" Value="0"/>
+						</Style>
+						<Style TargetType="{x:Type Rectangle}">
+							<Setter Property="StrokeThickness" Value="1"/>
+							<Setter Property="Height" Value="1"/>
+							<Setter Property="StrokeDashArray" Value="4 4"/>
+							<Setter Property="Stroke" Value="DarkBlue"/>
+							<Setter Property="Margin" Value="5"/>
+						</Style>
+					</StackPanel.Resources>
+					<Rectangle/>
+					<Button Content="Wszystkie gołębie" BorderThickness="0" Click="AllPigeons"></Button>
+					<Rectangle/>
+					<Button Content="Szukaj numeru"></Button>
+					<Rectangle/>
+					<Button Content="Samce" Click="MalePigeons"></Button>
+					<Rectangle/>
+					<Button Content="Samice" Click="FemalePigeons"></Button>
+					<Rectangle/>
+					<Button Content="Lotowe"></Button>
+					<Rectangle/>
+
+
+					<Rectangle Margin="0,40,0,5"/>
+					<Button Content="Usuń gołębia" Background="LightCoral" Click="RemovePigeon"></Button>
+					<Rectangle/>
+				</StackPanel>
+			</Grid>
+		</Grid>
+		
 
 	</DockPanel>
 </Window>
