@@ -7,18 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Dovecote.Abstract;
+
 namespace Dovecote
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Yearbook
+    public partial class Yearbook :ITable
     {
         public long Id { get; set; }
-        public long Name { get; set; }
+        public string Name { get; set; }
 
 		public override string ToString() {
-			return Name.ToString();
+			return Name;
 		}
 	}
 }

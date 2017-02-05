@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\ITable.cs" />
     <Compile Include="Category.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
@@ -117,6 +118,7 @@
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Result.cs" />
+    <Compile Include="Model\ImagePicker.cs" />
     <Compile Include="Pigeon.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>

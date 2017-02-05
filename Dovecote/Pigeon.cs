@@ -6,20 +6,22 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.Linq;
+
+using System.ComponentModel.DataAnnotations.Schema;
+using Dovecote.Abstract;
 
 namespace Dovecote
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Pigeon
+    using System.Linq;
+    public partial class Pigeon : ITable
     {
-        public long Id { get; set; }
+		public long Id { get; set; }
         public string Name { get; set; }
         public string RingNO { get; set; }
         public Nullable<System.DateTime> Hatched { get; set; }
-        public long Yearbook { get; set; }
+        public string Yearbook { get; set; }
         public byte[] Image { get; set; }
         public string Comment { get; set; }
         public string Dovecote { get; set; }
@@ -35,7 +37,7 @@ namespace Dovecote
         public byte[] EyeImage { get; set; }
 
 		public override string ToString() {
-			return $"{RingNO} {Name}";
+			return RingNO;
 		}
 
 		public Pigeon GetFather() {

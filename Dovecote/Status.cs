@@ -7,12 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Dovecote.Abstract;
+
 namespace Dovecote
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Status
+    public partial class Status : ITable
     {
         public long Id { get; set; }
         public string Name { get; set; }

@@ -14,13 +14,13 @@ using System.Windows.Documents;
 namespace Dovecote {
 
 	static class Provider {
-		static HodowlaEntities _entity;
+		static HodowlaEntities1 _entity;
 
-		static HodowlaEntities Entity {
+		static HodowlaEntities1 Entity {
 			get {
 				if (_entity != null) return _entity;
 
-				_entity = new HodowlaEntities();
+				_entity = new HodowlaEntities1();
 				return _entity;
 			}
 		}
@@ -60,6 +60,14 @@ namespace Dovecote {
 				else if (type == typeof(Yearbook)) {
 					var value = (Yearbook)(object)dbSet;
 					Entity.Yearbook.Add(value);
+				}
+				else if (type == typeof(Category)) {
+					var value = (Category)(object)dbSet;
+					Entity.Category.Add(value);
+				}
+				else if (type == typeof(Status)) {
+					var value = (Status)(object)dbSet;
+					Entity.Status.Add(value);
 				}
 
 
@@ -102,6 +110,14 @@ namespace Dovecote {
 				else if (type == typeof(Race)) {
 					var value = (Race)(object)dbSet;
 					Entity.Race.Remove(value);
+				}
+				else if (type == typeof(Category)) {
+					var value = (Category)(object)dbSet;
+					Entity.Category.Add(value);
+				}
+				else if (type == typeof(Status)) {
+					var value = (Status)(object)dbSet;
+					Entity.Status.Add(value);
 				}
 
 				return SaveChanges<T>(type);
@@ -146,6 +162,14 @@ namespace Dovecote {
 					return Entity.Yearbook.ToList();
 				}
 
+				if (type == typeof(Category)) {
+					return Entity.Category.ToList();
+				}
+
+				if (type == typeof(Status)) {
+					return Entity.Status.ToList();
+				}
+
 			}
 			catch (Exception exception) {
 				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -154,6 +178,25 @@ namespace Dovecote {
 			MessageBox.Show($"Brak typu {type}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			return null;
 
+		}
+
+		public static Result EditPigeon(Pigeon pigeon, long? editedPigeonId) {
+			var origin = Entity.Pigeon.Find(editedPigeonId);
+			if (origin == null) throw new Exception("Nie znaleziono edytowanego gołebia w bazie danych.");
+
+			if (editedPigeonId != null) pigeon.Id = (long)editedPigeonId;
+			Entity.Entry(origin).CurrentValues.SetValues(pigeon);
+			if(SaveChanges() == Result.Success)
+				return Result.Success;
+
+		   throw new Exception("Rekord nie został zmieniony.");
+		}
+
+		static Result SaveChanges() {
+			Entity.SaveChanges();
+
+			DataChanged?.Invoke();
+			return Result.Success;
 		}
 
 		static Result SaveChanges<T>(Type type) {

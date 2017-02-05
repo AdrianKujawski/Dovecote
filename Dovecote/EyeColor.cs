@@ -7,12 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Dovecote.Abstract;
+
 namespace Dovecote
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class EyeColor
+    public partial class EyeColor : ITable
     {
         public long Id { get; set; }
         public string Name { get; set; }

@@ -53,7 +53,11 @@ namespace Dovecote.Windows {
 				}
 
 				if (Type == typeof(Yearbook)) {
-					value = new Yearbook { Name = int.Parse(UserValue.Text) };
+					value = new Yearbook { Name = UserValue.Text };
+				}
+
+				if (Type == typeof(Category)) {
+					value = new Category { Name = UserValue.Text };
 				}
 
 				if (value == null) throw new Exception($"Brak cechy {Type}");
@@ -62,9 +66,6 @@ namespace Dovecote.Windows {
 
 				if(result == Result.Success)
 					return Result.Success;
-			}
-			catch (FormatException) {
-				MessageBox.Show("Rok musi być liczbą.","Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 			catch (Exception exception) {
 				MessageBox.Show("Dodanie cechy nie powiodło się." + Environment.NewLine + exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);

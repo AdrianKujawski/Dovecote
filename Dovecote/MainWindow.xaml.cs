@@ -4,6 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -21,6 +22,7 @@ namespace Dovecote {
 
 		public MainWindow() {
 			InitializeComponent();
+			ShowPigeonOnList();
 			Provider.DataChanged += ShowPigeonOnList;
 		}
 
@@ -75,6 +77,9 @@ namespace Dovecote {
 
 		void LoadListOfPigeons() {
 			Pigeons = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+
+			if (Pigeons == null) return;
+
 			PigeonCount.Text = Pigeons.Count.ToString();
 			MaleCount.Text = Pigeons.Count(p => p.Gender == "Samiec").ToString();
 			FemaleCount.Text = Pigeons.Count(p => p.Gender == "Samica").ToString();
@@ -93,7 +98,22 @@ namespace Dovecote {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Gender == "Samica");
 		}
 
+		void FlyingPigeons(object sender, RoutedEventArgs e) {
+			DataGrid.ItemsSource = Pigeons.Where(p => p.Statue == "Loty");
+		}
+
+		void BreedingPigeons(object sender, RoutedEventArgs e) {
+			DataGrid.ItemsSource = Pigeons.Where(p => p.Statue == "Rozpłód");
+		}
+
+		void YoungPigeons(object sender, RoutedEventArgs e) {
+			DataGrid.ItemsSource = Pigeons.Where(p => p.Yearbook == DateTime.Now.Year.ToString());
+		}
+
 		void RemovePigeon(object sender, RoutedEventArgs e) {
+			var resut = MessageBox.Show("Czy na pewno chcesz usunąć tego gołębia?", "Usuwanie", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (resut == MessageBoxResult.No) return;
+
 			Pigeon pigeon;
 			if (GetSelectedPigeon(out pigeon)) return;
 
@@ -105,6 +125,16 @@ namespace Dovecote {
 			pigeon = DataGrid.SelectedItem as Pigeon;
 			return pigeon == null;
 		}
+
+		void ShowPigeonInfo(object sender, MouseButtonEventArgs e) {
+			var row = (DataGrid)sender;
+			var pigeon = (Pigeon)row.SelectedItem;
+
+			var window = new AddPigeonWindow(pigeon);
+			window.ShowDialog();
+		}
+
+		
 	}
 
 }

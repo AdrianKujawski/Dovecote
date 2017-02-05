@@ -5,16 +5,15 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:enum="clr-namespace:Dovecote.Properties"
 		mc:Ignorable="d"
-		Title="AddPigeon" Height="550" MinHeight="525" MinWidth="600" Width="600"
-		>
+		Title="AddPigeon" Height="550" MinHeight="525" MinWidth="720" Width="720">
 	<StackPanel>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition MinWidth="340" Width="*"/>
-				<ColumnDefinition MinWidth="210" Width="*"/>
-				<ColumnDefinition Width="*"/>
+				<ColumnDefinition MinWidth="320" Width="*"/>
+				<ColumnDefinition MinWidth="240" Width="*"/>
+				<ColumnDefinition MaxWidth="150" Width="150"/>
 			</Grid.ColumnDefinitions>
-			
+
 			<Grid Margin="20">
 				<Grid.Resources>
 					<Style TargetType="{x:Type TextBox}">
@@ -59,15 +58,15 @@
 				<TextBox Name="RingNo" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Barwa" Grid.Column="0" Grid.Row="1"/>
-				<ComboBox Name="ColorComboBox" Grid.Column="1" Grid.Row="1" Text="Wybierz kolor" IsEditable="True" />
+				<ComboBox Name="ColorComboBox" Grid.Column="1" Grid.Row="1" Text="Wybierz kolor" IsEditable="True"/>
 				<Button Tag="Color" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="1"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Płeć" Grid.Column="0" Grid.Row="2"/>
 				<RadioButton Name="Male" GroupName="Gender" Content="Samiec" Grid.Column="1" Grid.Row="2" IsChecked="True"/>
 				<RadioButton Name="Female" GroupName="Gender" Content="Samica" Grid.Column="2" Grid.Row="2"/>
 
-				<TextBlock  VerticalAlignment="Center" Text="Rocznik" Grid.Column="0" Grid.Row="3"/>
-				<ComboBox Name="YearComboBox" Grid.Column="1" Grid.Row="3" Text="Wybierz kolor" IsEditable="True" />
+				<TextBlock VerticalAlignment="Center" Text="Rocznik" Grid.Column="0" Grid.Row="3"/>
+				<ComboBox Name="YearComboBox" Grid.Column="1" Grid.Row="3" Text="Wybierz kolor" IsEditable="True"/>
 				<Button Tag="Year" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="3"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Rasa" Grid.Column="0" Grid.Row="4"/>
@@ -79,10 +78,10 @@
 				<Button Tag="Line" Content="Dodaj" Click="AddNewValue" Grid.Column="2" Grid.Row="5"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Nazwa" Grid.Column="0" Grid.Row="6"/>
-				<TextBox  Name="PigeonName" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"/>
+				<TextBox Name="PigeonName" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Wykluty" Grid.Column="0" Grid.Row="7"/>
-				<DatePicker Name="DatePicker" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></DatePicker>
+				<DatePicker Name="DatePicker" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Kolor oka" Grid.Column="0" Grid.Row="8"/>
 				<ComboBox Name="EyeColorComboBox" Grid.Column="1" Grid.Row="8" Text="Wybierz kolor oka" IsEditable="True"/>
@@ -94,13 +93,11 @@
 
 				<TextBlock VerticalAlignment="Center" Text="Ojciec" Grid.Column="0" Grid.Row="10"/>
 				<ComboBox Name="FatherComboBox" Grid.Column="1" Grid.Row="10" Text="Wybierz ojca" IsEditable="True"/>
-				<ComboBox Name="FatherInDocecoteComboBox" Grid.Column="2" Grid.Row="10" Text="W gołebniku" IsEditable="True" LostFocus="FatherInDocecoteComboBox_LostFocus"/>
+				<ComboBox Name="FatherInDovecoteComboBox" Grid.Column="2" Grid.Row="10" Text="W gołebniku" IsEditable="True" LostFocus="FatherInDocecoteComboBox_LostFocus"/>
 
 				<TextBlock VerticalAlignment="Center" Text="Matka" Grid.Column="0" Grid.Row="11"/>
 				<ComboBox Name="MotherComboBox" Grid.Column="1" Grid.Row="11" Text="Wybierz matkę" IsEditable="True"/>
-				<ComboBox Name="MotherInDocecoteComboBox" Grid.Column="2" Grid.Row="11" Text="W gołębniku" IsEditable="True" LostFocus="MotherInDocecoteComboBox_LostFocus" />
-
-				<Button Margin="0" Height="25" Content="Dodaj" Click="AddPigeon" Grid.Row="13" Grid.ColumnSpan="3" Grid.Column="0"></Button>
+				<ComboBox Name="MotherInDovecoteComboBox" Grid.Column="2" Grid.Row="11" Text="W gołębniku" IsEditable="True" LostFocus="MotherInDocecoteComboBox_LostFocus"/>
 
 			</Grid>
 
@@ -114,20 +111,84 @@
 						<Setter Property="CornerRadius" Value="8,8,0,0"/>
 					</Style>
 				</StackPanel.Resources>
-				
-				
+
+
 				<Border>
-					<StackPanel >
-						<TextBlock Text=":: Status gołębia ::" TextAlignment="Center"></TextBlock>
-						<Rectangle Height="1" Stroke="DarkGray"></Rectangle>
-						<StackPanel Orientation="Horizontal" Margin="2">
-							<CheckBox Margin="2" IsChecked="True" Content="Loty" ></CheckBox>
-							<CheckBox Margin="2" IsChecked="False" Content="Rozpłód"></CheckBox>
-							<CheckBox Margin="2" IsChecked="False" Content="Archiwum"></CheckBox>
-						</StackPanel>
+					<StackPanel>
+						<TextBlock Text=":: Status gołębia ::" TextAlignment="Center"/>
+						<Rectangle Height="1" Stroke="DarkGray"/>
+						<Grid Name="StatusToCheck">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"></ColumnDefinition>
+								<ColumnDefinition Width="*"></ColumnDefinition>
+								<ColumnDefinition Width="*"></ColumnDefinition>
+							</Grid.ColumnDefinitions>
+							<CheckBox Name="Loty" Margin="2" IsChecked="True" Content="Loty" Checked="ToggleButton_OnChecked"/>
+							<CheckBox Name="Rozplod"  Grid.Column="1" Margin="2" IsChecked="False" Content="Rozpłód" Checked="ToggleButton_OnChecked"/>
+							<CheckBox Name="Archiwum"  Grid.Column="2" Margin="2" IsChecked="False" Content="Archiwum" Checked="ToggleButton_OnChecked"/>
+						</Grid>
+
+					</StackPanel>
+				</Border>
+
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Margin="5" VerticalAlignment="Center" Text="Kategoria"/>
+					<ComboBox Margin="5" Name="CategoryComboBox" Text="Wybierz kategorie" IsEditable="True"/>
+					<Button Margin="5" Tag="Category" Content="Dodaj" Click="AddNewValue"/>
+				</StackPanel>
+
+				<Border CornerRadius="8">
+					<StackPanel>
+						<TextBlock Text="Zdjęcie : 0 x 0" TextAlignment="Center"/>
+						<Border Background="White" CornerRadius="0">
+							<Image Name="PigeonImage" Margin="10" MinHeight="170" MaxHeight="170" Stretch="Uniform"/>
+						</Border>
+					</StackPanel>
+				</Border>
+
+				<Border CornerRadius="8">
+					<StackPanel>
+						<TextBlock Text="Zdjęcie oka : 0 x 0" TextAlignment="Center"/>
+						<Border Background="White" CornerRadius="0">
+							<Image Name="EyeImage" Margin="10" MinHeight="140" MaxHeight="140" Stretch="Uniform"/>
+						</Border>
 					</StackPanel>
 				</Border>
 			</StackPanel>
+
+			<StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
+				<StackPanel.Resources>
+					<Style TargetType="{x:Type Button}">
+						<Setter Property="FontSize" Value="12"/>
+						<Setter Property="Background" Value="AliceBlue"/>
+						<Setter Property="BorderThickness" Value="0"/>
+					</Style>
+					<Style TargetType="{x:Type Rectangle}">
+						<Setter Property="StrokeThickness" Value="1"/>
+						<Setter Property="Height" Value="1"/>
+						<Setter Property="StrokeDashArray" Value="4 4"/>
+						<Setter Property="Stroke" Value="DarkBlue"/>
+						<Setter Property="Margin" Value="5"/>
+					</Style>
+				</StackPanel.Resources>
+				<Rectangle/>
+				<Button Content="Nowy gołąb" BorderThickness="0" />
+				<Rectangle/>
+				<Button Content="Dodaj zdjęcie gołębia" Click="AddPigeonImage"/>
+				<Rectangle/>
+				<Button Content="Usuń zdjęcie gołębia" />
+				<Rectangle/>
+				<Button Content="Dodaj zdjęcie oka" Click="AddEyeImage"/>
+				<Rectangle/>
+				<Button Content="Usuń zdjęcie oka"/>
+				<Rectangle/>
+
+
+				<Rectangle Margin="0,40,0,5"/>
+				<Button Content="Zapisz gołębia" Background="LightCoral" Click="Confirm" />
+				<Rectangle/>
+			</StackPanel>
+
 		</Grid>
 	</StackPanel>
 </Window>

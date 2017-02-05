@@ -51,11 +51,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
           <Property Name="RingNO" Type="varchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="Hatched" Type="datetime" />
-          <Property Name="Yearbook" Type="integer" Nullable="false" />
+          <Property Name="Yearbook" Type="varchar" MaxLength="2147483647" Nullable="false" />
           <Property Name="Image" Type="blob" />
           <Property Name="Comment" Type="nvarchar" MaxLength="2147483647" />
           <Property Name="Dovecote" Type="varchar" MaxLength="2147483647" Nullable="false" />
@@ -88,8 +88,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="integer" Nullable="false" />
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="2147483647" Nullable="false" />
         </EntityType>
         <EntityContainer Name="HodowlaModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" store:Type="Tables" />
@@ -158,7 +158,7 @@
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="RingNO" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Hatched" Type="DateTime" />
-          <Property Name="Yearbook" Type="Int64" Nullable="false" />
+          <Property Name="Yearbook" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Image" Type="Binary" MaxLength="2147483647" FixedLength="false" />
           <Property Name="Comment" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
           <Property Name="Dovecote" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
@@ -192,9 +192,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="HodowlaEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HodowlaEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Category" EntityType="Self.Category" />
           <EntitySet Name="Color" EntityType="Self.Color" />
           <EntitySet Name="Dovecote" EntityType="Self.Dovecote" />
@@ -211,7 +211,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HodowlaModelStoreContainer" CdmEntityContainer="HodowlaEntities">
+        <EntityContainerMapping StorageEntityContainer="HodowlaModelStoreContainer" CdmEntityContainer="HodowlaEntities1">
           <EntitySetMapping Name="Category">
             <EntityTypeMapping TypeName="HodowlaModel.Category">
               <MappingFragment StoreEntitySet="Category">

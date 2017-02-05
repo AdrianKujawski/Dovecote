@@ -72,14 +72,15 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="150"></ColumnDefinition>
+					<ColumnDefinition MinWidth="150" MaxWidth="150"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
 
 				<Border Name="BorderList">
-					<DataGrid Margin="10"  Name="DataGrid" Width="Auto" SelectionMode="Single" AutoGenerateColumns="False" LoadingRow="DataGrid_OnLoadingRow" RowHeaderWidth="20" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp">
+					<DataGrid Margin="10"  Name="DataGrid" Width="Auto" SelectionMode="Single" AutoGenerateColumns="False" LoadingRow="DataGrid_OnLoadingRow" 
+							  RowHeaderWidth="20" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsReadOnly="True" MouseDoubleClick="ShowPigeonInfo">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Numer obrączki" Binding="{Binding RingNO}" Width="Auto"/>
 							<DataGridTextColumn Header="Kolor" Binding="{Binding Color}" Width="*"/>
@@ -244,9 +245,12 @@
 					<Rectangle/>
 					<Button Content="Samice" Click="FemalePigeons"></Button>
 					<Rectangle/>
-					<Button Content="Lotowe"></Button>
+					<Button Content="Lotowe" Click="FlyingPigeons"></Button>
 					<Rectangle/>
-
+					<Button Content="Rozpłodowe" Click="BreedingPigeons"></Button>
+					<Rectangle/>
+					<Button Content="Młode" Click="YoungPigeons"></Button>
+					<Rectangle/>
 
 					<Rectangle Margin="0,40,0,5"/>
 					<Button Content="Usuń gołębia" Background="LightCoral" Click="RemovePigeon"></Button>

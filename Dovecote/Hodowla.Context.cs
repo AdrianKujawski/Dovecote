@@ -13,10 +13,10 @@ namespace Dovecote
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HodowlaEntities : DbContext
+    public partial class HodowlaEntities1 : DbContext
     {
-        public HodowlaEntities()
-            : base("name=HodowlaEntities")
+        public HodowlaEntities1()
+            : base("name=HodowlaEntities1")
         {
         }
     
