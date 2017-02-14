@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Model\Result.cs" />
     <Compile Include="Model\ImagePicker.cs" />
+    <Compile Include="Model\PigeonStatus.cs" />
     <Compile Include="Pigeon.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
     </Compile>
@@ -136,6 +137,9 @@
     </Compile>
     <Compile Include="Windows\AddValueWindow.xaml.cs">
       <DependentUpon>AddValueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LineageWindow.xaml.cs">
+      <DependentUpon>LineageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Yearbook.cs">
       <DependentUpon>Hodowla.tt</DependentUpon>
@@ -157,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddValueWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LineageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,10 +6,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Dovecote.Windows;
 
 namespace Dovecote {
@@ -31,13 +33,19 @@ namespace Dovecote {
 			window.ShowDialog();
 		}
 
+		void ShowLineage(object sender, RoutedEventArgs e) {
+			var window = new LineageWindow();
+			window.ShowDialog();
+		}
+
 		void ShowPigeon(object sender, RoutedEventArgs e) {
 			ShowPigeonOnList();
 		}
 
 		void ShowPigeonOnList() {
-			LoadListOfPigeons();
+			Pigeons = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
 			DataGrid.ItemsSource = Pigeons;
+			SetPigeonCounter();
 		}
 
 		void DataGrid_OnLoadingRow(object sender, DataGridRowEventArgs e) {
@@ -75,39 +83,42 @@ namespace Dovecote {
 			GrandMotherTwoInfo.DataContext = null;
 		}
 
-		void LoadListOfPigeons() {
-			Pigeons = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
+		void SetPigeonCounter() {
+			if (DataGrid.ItemsSource == null) return;
 
-			if (Pigeons == null) return;
-
-			PigeonCount.Text = Pigeons.Count.ToString();
-			MaleCount.Text = Pigeons.Count(p => p.Gender == "Samiec").ToString();
-			FemaleCount.Text = Pigeons.Count(p => p.Gender == "Samica").ToString();
+			PigeonCount.Text = DataGrid.ItemsSource.Cast<Pigeon>().Count().ToString();
+			MaleCount.Text = DataGrid.ItemsSource.Cast<Pigeon>().Count(p => p.Gender == "Samiec").ToString();
+			FemaleCount.Text = DataGrid.ItemsSource.Cast<Pigeon>().Count(p => p.Gender == "Samica").ToString();
 		}
-
 
 		void AllPigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons;
+			SetPigeonCounter();
 		}
 
 		void MalePigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Gender == "Samiec");
+			SetPigeonCounter();
 		}
 
 		void FemalePigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Gender == "Samica");
+			SetPigeonCounter();
 		}
 
 		void FlyingPigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Statue == "Loty");
+			SetPigeonCounter();
 		}
 
 		void BreedingPigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Statue == "Rozpłód");
+			SetPigeonCounter();
 		}
 
 		void YoungPigeons(object sender, RoutedEventArgs e) {
 			DataGrid.ItemsSource = Pigeons.Where(p => p.Yearbook == DateTime.Now.Year.ToString());
+			SetPigeonCounter();
 		}
 
 		void RemovePigeon(object sender, RoutedEventArgs e) {
@@ -133,8 +144,6 @@ namespace Dovecote {
 			var window = new AddPigeonWindow(pigeon);
 			window.ShowDialog();
 		}
-
-		
 	}
 
 }

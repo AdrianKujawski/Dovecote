@@ -3,7 +3,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="clr-namespace:Dovecote.Converter"
 		mc:Ignorable="d"
 		Title="MainWindow" Height="600" MinHeight="600" MinWidth="1000" Width="1000">
 	<DockPanel>
@@ -24,6 +23,7 @@
 			<MenuItem Header="Hodowla">
 				<MenuItem Header="Nowy gołąb" Click="AddPigeon"/>
 				<MenuItem Header="Pokaż gołębie" Click="ShowPigeon"/>
+				<MenuItem Header="Rodowody" Click="ShowLineage"/>
 			</MenuItem>
 		</Menu>
 
@@ -43,7 +43,7 @@
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBlock Text="Gołebie" FontSize="28" FontWeight="Bold" Margin="20,0" TextAlignment="Center"/>
+				<TextBlock Text="Gołebie" FontSize="28" FontWeight="Bold" Margin="20,0" TextAlignment="Center" Padding="10"/>
 
 				<Border Margin="5" Grid.Column="2" BorderBrush="DarkGray" Background="GhostWhite" BorderThickness="1" Width="60" CornerRadius="8">
 					<StackPanel HorizontalAlignment="Center">
@@ -130,7 +130,6 @@
 										</Border>
 										<TextBlock Text="{Binding RingNO}" FontWeight="DemiBold" Foreground="DarkRed"/>
 										<TextBlock/>
-
 										<TextBlock Text="{Binding Color}" Foreground="DarkRed"/>
 										<TextBlock Text="{Binding Race}"/>
 									</StackPanel>
@@ -253,7 +252,7 @@
 					<Rectangle/>
 
 					<Rectangle Margin="0,40,0,5"/>
-					<Button Content="Usuń gołębia" Background="LightCoral" Click="RemovePigeon"></Button>
+					<Button Name="RemoveButton" Content="Usuń gołębia" Background="LightCoral" Click="RemovePigeon"/>
 					<Rectangle/>
 				</StackPanel>
 			</Grid>

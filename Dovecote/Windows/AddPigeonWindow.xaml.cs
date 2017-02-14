@@ -7,7 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -47,7 +46,8 @@ namespace Dovecote.Windows {
 			var mother = pigeon.GetMother();
 			FatherInDovecoteComboBox.SelectedIndex = FindValue(FatherInDovecoteComboBox, father?.Dovecote);
 			MotherInDovecoteComboBox.SelectedIndex = FindValue(MotherInDovecoteComboBox, mother?.Dovecote);
-			GetParentList();
+			GetPigeonFromDovecote(FatherComboBox, FatherInDovecoteComboBox, "Samiec");
+			GetPigeonFromDovecote(MotherComboBox, MotherInDovecoteComboBox, "Samica");
 
 			FatherComboBox.SelectedIndex = FindValueParent(FatherComboBox, father?.RingNO);
 			MotherComboBox.SelectedIndex = FindValueParent(MotherComboBox, mother?.RingNO);
@@ -59,7 +59,7 @@ namespace Dovecote.Windows {
 			RingNo.Text = pigeon.RingNO;
 			PigeonName.Text = pigeon.Name;
 
-			if(pigeon.Hatched != null)
+			if (pigeon.Hatched != null)
 				DatePicker.SelectedDate = (DateTime)pigeon.Hatched;
 
 			SaveClick = SaveChanges;
@@ -72,6 +72,7 @@ namespace Dovecote.Windows {
 					return index;
 				}
 			}
+
 			return -1;
 		}
 
@@ -82,6 +83,7 @@ namespace Dovecote.Windows {
 					return index;
 				}
 			}
+
 			return -1;
 		}
 
@@ -122,18 +124,10 @@ namespace Dovecote.Windows {
 			FatherInDovecoteComboBox.ItemsSource = listOfDovecote;
 			MotherInDovecoteComboBox.ItemsSource = listOfDovecote;
 
-			GetParentList();
+			GetPigeonFromDovecote(FatherComboBox, FatherInDovecoteComboBox, "Samiec");
+			GetPigeonFromDovecote(MotherComboBox, MotherComboBox, "Samica");
 		}
 
-		void GetParentList() {
-			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
-
-			if (FatherInDovecoteComboBox.SelectedItem != null)
-				FatherComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == FatherInDovecoteComboBox.SelectedItem.ToString() && p.Gender == "Samiec");
-
-			if (MotherInDovecoteComboBox.SelectedItem != null)
-				MotherComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == MotherInDovecoteComboBox.SelectedItem.ToString() && p.Gender == "Samica");
-		}
 
 		void AddNewValue(object sender, RoutedEventArgs e) {
 			var addValueWindow = new AddValueWindow();
@@ -168,7 +162,7 @@ namespace Dovecote.Windows {
 				addValueWindow.Title = "Dodaj matke";
 				addValueWindow.Type = typeof(Pigeon);
 			}
-			if (tag == "Year") {
+			else if (tag == "Year") {
 				addValueWindow.Title = "Dodaj Rocznik";
 				addValueWindow.Type = typeof(Yearbook);
 			}
@@ -314,15 +308,17 @@ namespace Dovecote.Windows {
 		}
 
 		void FatherInDocecoteComboBox_LostFocus(object sender, RoutedEventArgs e) {
-			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
-			if (FatherInDovecoteComboBox.SelectedItem != null)
-				FatherComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == FatherInDovecoteComboBox.SelectedItem.ToString() && p.Gender == "Samiec");
+			GetPigeonFromDovecote(FatherComboBox, FatherInDovecoteComboBox, "Samiec");
 		}
 
 		void MotherInDocecoteComboBox_LostFocus(object sender, RoutedEventArgs e) {
+			GetPigeonFromDovecote(MotherComboBox, MotherInDovecoteComboBox, "Samica");
+		}
+
+		void GetPigeonFromDovecote(ComboBox pigeonComboBox, ComboBox dovecoteComboBox, string gender) {
 			var listOfPigeon = (List<Pigeon>)Provider.GetList<Pigeon>(typeof(Pigeon));
-			if (MotherInDovecoteComboBox.SelectedItem != null)
-				MotherComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == MotherInDovecoteComboBox.SelectedItem.ToString() && p.Gender == "Samica");
+			if (dovecoteComboBox.SelectedItem != null)
+				pigeonComboBox.ItemsSource = listOfPigeon.Where(p => p.Dovecote == dovecoteComboBox.SelectedItem?.ToString() && p.Gender == gender && p.RingNO != _editedPigeon?.RingNO);
 		}
 
 		void ToggleButton_OnChecked(object sender, RoutedEventArgs e) {
@@ -330,21 +326,6 @@ namespace Dovecote.Windows {
 			foreach (var checkBox in FindVisualChildren<CheckBox>(StatusToCheck)) {
 				if (!Equals(clickedCheckBox, checkBox))
 					checkBox.IsChecked = false;
-			}
-		}
-
-		static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
-			if (depObj == null) yield break;
-
-			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
-				var child = VisualTreeHelper.GetChild(depObj, i);
-				if (child is T children) {
-					yield return children;
-				}
-
-				foreach (var childOfChild in FindVisualChildren<T>(child)) {
-					yield return childOfChild;
-				}
 			}
 		}
 
@@ -372,7 +353,27 @@ namespace Dovecote.Windows {
 			return newImage.Source;
 		}
 
+		static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj)
+			where T : DependencyObject {
+			if (depObj == null) yield break;
+
+			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
+				var child = VisualTreeHelper.GetChild(depObj, i);
+				var children = child as T;
+				if (children != null) {
+					yield return children;
+				}
+
+				foreach (var childOfChild in FindVisualChildren<T>(child)) {
+					yield return childOfChild;
+				}
+			}
+		}
+
+
 		public delegate void SaveOrEdit();
+
+
 		public static event SaveOrEdit SaveClick;
 	}
 
