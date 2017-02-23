@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Dovecote.Windows {
@@ -19,6 +20,7 @@ namespace Dovecote.Windows {
 	public partial class LineageWindow : Window {
 		const int Rows = 16;
 		const int Columns = 4;
+		static int lol = 0;
 
 		List<Pigeon> Pigeons { get; set; }
 
@@ -31,7 +33,7 @@ namespace Dovecote.Windows {
 			ListOfPigeon.ItemsSource = Pigeons;
 
 			ChooseStatus.ItemsSource = Enum.GetNames(typeof(PigeonStatus));
-			FillGrid();
+			FillGrid(null);
 		}
 
 		void ChooseStatus_LostFocus(object sender, RoutedEventArgs e) {
@@ -60,84 +62,122 @@ namespace Dovecote.Windows {
 			}
 		}
 
-		void FillGrid() {
-			var iteracja = 1;
-			var borderStyle = FindResource("CutBorder") as Style;
-			var boldRedText = FindResource("BoldRedText") as Style;
-			var redText = FindResource("RedText") as Style;
+		void FillGrid(Pigeon pigeon) {
+				CreateBorders(pigeon?.GetFather(), 1);
+				CreateBorders(pigeon?.GetMother(), 1, 8);
+				Console.WriteLine("Zrobilem: " + lol);
+		}
 
-			for (var column = Columns - 1; column >= 0; column--) {
-				for (var row = 0; row < Rows; row += iteracja) {
-					var border = new Border {
-						Style = borderStyle
-					};
+		void ListOfPigeon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			var selectedPigeon = (Pigeon)ListOfPigeon.SelectedItem;
 
-					var stackPanel = new StackPanel();
+			if (selectedPigeon == null) return;
 
-					
-					var ringNo = new TextBlock {
-						Text = "Siemaa!!",
-						Style = boldRedText
-					};
-					stackPanel.Children.Add(ringNo);
-
-					if (column != 3) {
-						var name = new TextBlock {
-							Text = "Zioemk",
-							Style = redText
-						};
-						stackPanel.Children.Add(name);
-
-						var race = new TextBlock {
-							Text = "rasa",
-							Style = redText
-						};
-						stackPanel.Children.Add(race);
-
-						var color = new TextBlock {
-							Text = "color"
-						};
-						stackPanel.Children.Add(color);
-					}
-
-					border.Child = stackPanel;
-					ParentGrid.Children.Add(border);
-					Grid.SetRow(border, row);
-					Grid.SetColumn(border, column);
-					Grid.SetRowSpan(border, iteracja);
-				}
-
-				iteracja *= 2;
-			}
+			MainPigeon.DataContext = selectedPigeon;
+			ClearGrid();
+			FillGrid(selectedPigeon);
 		}
 
 		void ClearGrid() {
 			foreach (var textBlock in FindVisualChildren<TextBlock>(ParentGrid)) {
 				textBlock.Text = string.Empty;
 			}
-			
 		}
 
-		static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj)
+		//void CreateBorders(int column, Pigeon pigeon) {
+		//	var currentRow = 0;
+		//	var borders = (int)Math.Pow(2, column);
+		//	var span = borders == Rows ? 1 : Rows / borders;
+		//	for (var i = 0; i < borders; i++) {
+		//		var borderStyle = FindResource("CutBorder") as Style;
+		//		var boldRedText = FindResource("BoldRedText") as Style;
+		//		var redText = FindResource("RedText") as Style;
+
+		//		var border = new Border { Style = borderStyle };
+		//		var stackPanel = new StackPanel();
+
+		//		var ringNo = new TextBlock { Style = boldRedText, Text = pigeon?.RingNO };
+		//		stackPanel.Children.Add(ringNo);
+
+		//		if (column != 4) {
+		//			var name = new TextBlock { Style = redText, Text = pigeon?.Name };
+		//			stackPanel.Children.Add(name);
+
+		//			var race = new TextBlock { Style = redText, Text = pigeon?.Race };
+		//			stackPanel.Children.Add(race);
+
+		//			var color = new TextBlock { Text = pigeon?.Color };
+		//			stackPanel.Children.Add(color);
+		//		}
+
+		//		border.Child = stackPanel;
+		//		ParentGrid.Children.Add(border);
+		//		Grid.SetRow(border, currentRow);
+		//		Grid.SetColumn(border, column - 1);
+		//		Grid.SetRowSpan(border, span);
+		//		currentRow += span;
+		//	}
+		//}
+
+		void CreateBorders(Pigeon pigeon, int column, int currentRow = 0) {
+			if (column > 4) return;
+
+			var borders = (int)Math.Pow(2, column);
+			var span = borders == Rows ? 1 : Rows / borders;
+
+			var borderStyle = FindResource("CutBorder") as Style;
+			var boldRedText = FindResource("BoldRedText") as Style;
+			var redText = FindResource("RedText") as Style;
+
+			var border = new Border { Style = borderStyle };
+			var stackPanel = new StackPanel();
+
+			var ringNo = new TextBlock { Style = boldRedText, Text =pigeon?.RingNO };
+			stackPanel.Children.Add(ringNo);
+
+			if (column != 4) {
+				var name = new TextBlock { Style = redText, Text = pigeon?.Name };
+				stackPanel.Children.Add(name);
+
+				var race = new TextBlock { Style = redText, Text = pigeon?.Race };
+				stackPanel.Children.Add(race);
+
+				var color = new TextBlock { Text = pigeon?.Color };
+				stackPanel.Children.Add(color);
+			}
+			border.Child = stackPanel;
+			ParentGrid.Children.Add(border);
+			Grid.SetRow(border, currentRow);
+			Grid.SetColumn(border, column - 1);
+			Grid.SetRowSpan(border, span);
+			column++;
+			CreateBorders(pigeon?.GetFather(), column, currentRow);
+			currentRow += span/2;
+			CreateBorders(pigeon?.GetMother(), column, currentRow);
+		}
+
+		static
+			IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj)
 			where T : DependencyObject {
-			if (depObj == null) yield break;
+			if
+				(depObj == null) yield break;
 
 			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
 				var child = VisualTreeHelper.GetChild(depObj, i);
+
 				var children = child as T;
-				if (children != null) {
+				if
+				(children
+				!= null) {
 					yield return children;
 				}
 
-				foreach (var childOfChild in FindVisualChildren<T>(child)) {
-					yield return childOfChild;
+				foreach
+					(var childOfChild in FindVisualChildren<T>(child)) {
+					yield
+						return
+						childOfChild;
 				}
-			}
-		}
-
-		private void ListOfPigeon_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-			if (ListOfPigeon.SelectedItem != null) {
-				ClearGrid();
 			}
 		}
 	}
