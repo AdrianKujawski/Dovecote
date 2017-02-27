@@ -6,6 +6,8 @@
 
 using System;
 using System.Windows;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Dovecote.Windows {
 
@@ -22,8 +24,10 @@ namespace Dovecote.Windows {
 
 		void Add(object sender, RoutedEventArgs e) {
 			var result = AddNewValue();
-			if(result == Result.Success)
-				Close();
+			if (result != Result.Success) return;
+
+			DialogResult = true;
+			Close();
 		}
 
 		Result AddNewValue() {

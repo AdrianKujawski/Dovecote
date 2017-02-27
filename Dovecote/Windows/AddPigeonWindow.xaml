@@ -7,7 +7,7 @@
 		mc:Ignorable="d"
 		Title="AddPigeon" Height="550" MinHeight="525" MinWidth="720" Width="720">
 	<StackPanel>
-		<Grid>
+		<Grid Name="MainGrid">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition MinWidth="320" Width="*"/>
 				<ColumnDefinition MinWidth="240" Width="*"/>

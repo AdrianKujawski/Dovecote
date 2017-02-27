@@ -1,19 +1,23 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Provider.cs" company="Unicore">
-//     Copyright (c) 2017, Unicore. All rights reserved.
+// <copyright file="Provider.cs">
+//     Copyright (c) 2017, Adrian Kujawski.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Dovecote {
 
 	static class Provider {
+		public delegate void RefreshData();
+
+
 		static HodowlaEntities1 _entity;
 
 		static HodowlaEntities1 Entity {
@@ -30,51 +34,40 @@ namespace Dovecote {
 				var type = dbSet.GetType();
 
 				if (type == typeof(Color)) {
-					var value = (Color)(object)dbSet;
-					Entity.Color.Add(value);
+					Entity.Color.Add((Color)(object)dbSet);
 				}
 				else if (type == typeof(EyeColor)) {
-					var value = (EyeColor)(object)dbSet;
-					Entity.EyeColor.Add(value);
+					Entity.EyeColor.Add((EyeColor)(object)dbSet);
 				}
 				else if (type == typeof(Gender)) {
-					var value = (Gender)(object)dbSet;
-					Entity.Gender.Add(value);
+					Entity.Gender.Add((Gender)(object)dbSet);
 				}
 				else if (type == typeof(Dovecote)) {
-					var value = (Dovecote)(object)dbSet;
-					Entity.Dovecote.Add(value);
+					Entity.Dovecote.Add((Dovecote)(object)dbSet);
 				}
 				else if (type == typeof(Line)) {
-					var value = (Line)(object)dbSet;
-					Entity.Line.Add(value);
+					Entity.Line.Add((Line)(object)dbSet);
 				}
 				else if (type == typeof(Pigeon)) {
-					var value = (Pigeon)(object)dbSet;
-					Entity.Pigeon.Add(value);
+					Entity.Pigeon.Add((Pigeon)(object)dbSet);
 				}
 				else if (type == typeof(Race)) {
-					var value = (Race)(object)dbSet;
-					Entity.Race.Add(value);
+					Entity.Race.Add((Race)(object)dbSet);
 				}
 				else if (type == typeof(Yearbook)) {
-					var value = (Yearbook)(object)dbSet;
-					Entity.Yearbook.Add(value);
+					Entity.Yearbook.Add((Yearbook)(object)dbSet);
 				}
 				else if (type == typeof(Category)) {
-					var value = (Category)(object)dbSet;
-					Entity.Category.Add(value);
+					Entity.Category.Add((Category)(object)dbSet);
 				}
 				else if (type == typeof(Status)) {
-					var value = (Status)(object)dbSet;
-					Entity.Status.Add(value);
+					Entity.Status.Add((Status)(object)dbSet);
 				}
-
 
 				return SaveChanges<T>(type);
 			}
 			catch (Exception exception) {
-				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(exception.Message + Environment.NewLine + exception.InnerException, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 				return Result.Error;
 			}
 		}
@@ -123,7 +116,7 @@ namespace Dovecote {
 				return SaveChanges<T>(type);
 			}
 			catch (Exception exception) {
-				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(exception.Message + Environment.NewLine + exception.InnerException, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 				return Result.Error;
 			}
 		}
@@ -169,15 +162,13 @@ namespace Dovecote {
 				if (type == typeof(Status)) {
 					return Entity.Status.ToList();
 				}
-
 			}
 			catch (Exception exception) {
-				MessageBox.Show(exception.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(exception.Message + Environment.NewLine + exception.InnerException, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			MessageBox.Show($"Brak typu {type}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 			return null;
-
 		}
 
 		public static Result EditPigeon(Pigeon pigeon, long? editedPigeonId) {
@@ -186,10 +177,11 @@ namespace Dovecote {
 
 			if (editedPigeonId != null) pigeon.Id = (long)editedPigeonId;
 			Entity.Entry(origin).CurrentValues.SetValues(pigeon);
-			if(SaveChanges() == Result.Success)
+			if (SaveChanges() == Result.Success)
 				return Result.Success;
 
-		   throw new Exception("Rekord nie został zmieniony.");
+			Entity.Database.BeginTransaction().Rollback();
+			throw new Exception("Rekord nie został zmieniony.");
 		}
 
 		static Result SaveChanges() {
@@ -200,7 +192,13 @@ namespace Dovecote {
 		}
 
 		static Result SaveChanges<T>(Type type) {
-			var result = Entity.SaveChanges();
+			var result = 0;
+			try {
+				result = Entity.SaveChanges();
+			}
+			catch (Exception) {
+				UndoChanges();
+			}
 			if (result == 0)
 				throw new Exception($"Brak cechy {type}");
 
@@ -208,8 +206,22 @@ namespace Dovecote {
 			return Result.Success;
 		}
 
+		static void UndoChanges() {
+			foreach (var entry in Entity.ChangeTracker.Entries()) {
+				switch (entry.State) {
+					case EntityState.Modified:
+						entry.State = EntityState.Unchanged;
+						break;
+					case EntityState.Added:
+						entry.State = EntityState.Detached;
+						break;
+					case EntityState.Deleted:
+						entry.Reload();
+						break;
+				}
+			}
+		}
 
-		public delegate void RefreshData();
 		public static event RefreshData DataChanged;
 	}
 

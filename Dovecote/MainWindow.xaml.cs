@@ -6,12 +6,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Xml;
 using Dovecote.Windows;
 
 namespace Dovecote {
@@ -20,13 +19,14 @@ namespace Dovecote {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
-		List<Pigeon> Pigeons { get; set; }
-
 		public MainWindow() {
+			UpdateAppSettings("connectionString");
 			InitializeComponent();
 			ShowPigeonOnList();
 			Provider.DataChanged += ShowPigeonOnList;
 		}
+
+		List<Pigeon> Pigeons { get; set; }
 
 		void AddPigeon(object sender, RoutedEventArgs e) {
 			var window = new AddPigeonWindow();
@@ -53,7 +53,6 @@ namespace Dovecote {
 		}
 
 		void DataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-
 			ClearFamilyContext();
 
 			Pigeon pigeon;
@@ -143,6 +142,41 @@ namespace Dovecote {
 
 			var window = new AddPigeonWindow(pigeon);
 			window.ShowDialog();
+		}
+
+		static void UpdateAppSettings(string keyName) {
+			try {
+				var xmlDoc = new XmlDocument();
+
+				xmlDoc.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+
+				if (xmlDoc.DocumentElement != null)
+					foreach (XmlElement xElement in xmlDoc.DocumentElement) {
+						if (xElement.Name != "connectionStrings") continue;
+
+						foreach (XmlNode xNode in xElement.ChildNodes) {
+							if (xNode.Attributes == null) continue;
+
+							foreach (XmlAttribute attribute in xNode.Attributes) {
+								if (attribute.Name == keyName) {
+									attribute.Value = GetDataSourcePath(attribute.Value);
+								}
+							}
+						}
+					}
+
+				xmlDoc.Save(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+			}
+			catch (Exception exception) {
+				MessageBox.Show($"Błąd podczas ustawiania ściężki do pliku Hodowla.sqlite.{Environment.NewLine}{exception}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		static string GetDataSourcePath(string value) {
+			var split = value.Split(new[] { "data source=" }, StringSplitOptions.None);
+			var path = AppDomain.CurrentDomain.BaseDirectory;
+			split[1] = "data source=" + path + "Hodowla.sqlite'";
+			return split[0] + split[1];
 		}
 	}
 

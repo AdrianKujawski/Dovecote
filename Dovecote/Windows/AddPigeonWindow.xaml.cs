@@ -171,7 +171,17 @@ namespace Dovecote.Windows {
 				addValueWindow.Type = typeof(Category);
 			}
 
-			addValueWindow.ShowDialog();
+			var showDialog = addValueWindow.ShowDialog();
+			if (showDialog != null && (bool)showDialog) {
+				ChangeComboBoxItem(tag);
+			}
+
+		}
+
+		void ChangeComboBoxItem(string tag) {
+			var comboBoxName = tag + "ComboBox";
+			var checkbox = UiHelper.FindChildByName<ComboBox>(MainGrid, comboBoxName);
+			checkbox.SelectedIndex = checkbox.Items.Count-1;
 		}
 
 		void Confirm(object sender, RoutedEventArgs e) {
@@ -267,7 +277,7 @@ namespace Dovecote.Windows {
 
 		string GetStatus() {
 			var status = string.Empty;
-			foreach (var checkBox in FindVisualChildren<CheckBox>(StatusToCheck)) {
+			foreach (var checkBox in UiHelper.FindVisualChildren<CheckBox>(StatusToCheck)) {
 				if (checkBox.IsChecked != null && (bool)checkBox.IsChecked) {
 					status = (string)checkBox.Content;
 				}
@@ -323,7 +333,7 @@ namespace Dovecote.Windows {
 
 		void ToggleButton_OnChecked(object sender, RoutedEventArgs e) {
 			var clickedCheckBox = (CheckBox)sender;
-			foreach (var checkBox in FindVisualChildren<CheckBox>(StatusToCheck)) {
+			foreach (var checkBox in UiHelper.FindVisualChildren<CheckBox>(StatusToCheck)) {
 				if (!Equals(clickedCheckBox, checkBox))
 					checkBox.IsChecked = false;
 			}
@@ -351,23 +361,6 @@ namespace Dovecote.Windows {
 			var newHeight = Math.Floor(scale * image.PixelHeight);
 			var newImage = new TransformedBitmap(image, new ScaleTransform(newWidth, newHeight));
 			return newImage.Source;
-		}
-
-		static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj)
-			where T : DependencyObject {
-			if (depObj == null) yield break;
-
-			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
-				var child = VisualTreeHelper.GetChild(depObj, i);
-				var children = child as T;
-				if (children != null) {
-					yield return children;
-				}
-
-				foreach (var childOfChild in FindVisualChildren<T>(child)) {
-					yield return childOfChild;
-				}
-			}
 		}
 
 
